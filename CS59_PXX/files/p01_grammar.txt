@@ -21,7 +21,7 @@ conditional -> "Begin Check, If [" expression "]:\n"
                "End Check\n"
 
 loop -> "Begin Loop, " ( "Repeat [" expression "] Times"
-                     | "While [" expression "]:\n"
+                     | "While [" expression "]:" ) '\n'
         statement*?
         "End Loop\n"
 
