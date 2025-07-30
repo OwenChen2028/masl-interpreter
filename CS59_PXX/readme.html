@@ -8,7 +8,7 @@ Author
 ------------------|-------------
 Team Members      | Owen Chen & Cody Zang
 Computer + OS     | Windows 11 & macOS
-Time to Complete  | ~6 hours so far
+Time to Complete  | ~8.5 hours so far
 Additional Help   | Consulting w/ Prof. & TAs
 </div>
 
@@ -17,11 +17,11 @@ Meeting Dates
 * 7/12/2025, 3-5pm - initial meeting to complete P00
 * 7/15/2025, 3:30-4pm - meeting with professor, recieved approval
 * 7/23/2025, 5:00-8:30pm - meeting to design and test grammar
-* ...
+* 7/30/2025, 2:15-4:45pm - meeting to develop ANTLR parser and test it
+* Future dates TBD...
 
 P00: Selection
 ================
-
 Define the domain.
 --------------------------------
 Our domain is email automation. Oftentimes in professional settings, email templates and similar tools are used in order to save time communicating. Key considerations in this domain are ease of use/learning (because non-technical staff will be using these tools) and output reliability/correctness (as these emails will be going to clients and other staff). There do exist tools for this sort of task, but they are not languages (more on that later, see below), so our approach the problem seems not to have been done before. 
@@ -131,7 +131,6 @@ P01: Grammar
 Create a grammar for the DSL.
 --------------------------------
 <b>Note:</b> This grammar is outdated now, refer to the ANTLR version.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CFG
 program -> statement*
 
@@ -299,7 +298,6 @@ string: "hello"
 recipients(string)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 Do you have to make corrections or changes?
 --------------------------------
 Numerous changes were made to the grammar for various reasons, such as for removing ambiguity in parsing/writing inputs. Several features were added for increased usability, and several were removed due to introducing complications (+ minor syntax changes). 
@@ -312,10 +310,271 @@ Here the changes that we've deemed notable:
 * ((This is no longer a comment)) /* This is. It looks much better, it's not actually that difficult for non-programmers to learn, and most importantly, people won't confuse it with mathematical notation and try to use it in expressions. */
 * Pairing strings with emails (and having a special email type) is deprecated. Emails can simply be stored as strings in a separate list, so pairing adds too much translation complexity for no good reason. 
 
-
 P02: Parser
 ======================
-TBD
+Use ANTLR to generate a parser for the language.
+--------------------------------
+<b>ANTLR Grammar:</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ g4
+grammar DSL;
+
+parse : statement* EOF;
+
+statement : (' ' | ENDL)* ( declaration
+                          | conditional | loop
+                          | genStmt | printStmt ) '.' ENDL*;
+
+declaration : numDec | listDec | templateDec;
+
+numDec : ( (ID ' = ' expression) | numOp );
+
+numOp : ('Increment ' ID) | ('Decrement ' ID);
+
+listDec : ID ': ' possibleStr (', ' possibleStr)*;
+
+templateDec : 'Begin Template ' ID ':' ENDL*
+          (' ' | ENDL)* content ENDL* (' ' | ENDL)*
+          'End Template';
+
+conditional : 'Begin Check, If [' expression ']:' ENDL*
+              statement*? (' ' | ENDL)*
+              'End Check';
+
+loop : 'Begin Loop, ' ( 'Repeat [' expression '] Times'
+                      | 'While [' expression ']' ) ':' ENDL*
+        statement*? (' ' | ENDL)*
+        'End Loop';
+        
+genStmt : 'Generate ' ID;
+
+printStmt : 'Print ' (possibleStr | expression);
+
+expression : ( possibleNum (OP possibleNum)* )
+           | ( possibleStr ' In ' ID );
+
+possibleNum : NUM | ID | indexedID;
+
+possibleStr : STR | ID | indexedID;
+
+content : (substitution | CNT)*?;
+
+substitution : (ID | indexedID);
+
+indexedID : ID ' (' (expression | ('"Count"' | '"Random"')) ')';
+
+CNT : ('`' .*? '{')
+    | ('}' .*? '{')
+    | ('}' .*? '`')
+    | ('`' .*? '`');
+
+ID : [a-zA-Z] [a-zA-Z0-9]*;
+NUM : [0-9]+;
+OP : ' ' ('+' | '-' | '*' | '/' | 'Mod'
+         | 'Is' | '>=' | '<=' | '>' | '<'
+         | 'And' | 'Or' | 'Not') ' ';
+STR : '"' .*? '"';
+ENDL : ('\r')? '\n';
+
+COMMENT : '/*' .*? '*/' -> skip;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The above grammar is a translated version of the P001 grammar, with various changes to make it compatible with ANTLR and resolve parsing ambiguities. 
+
+Test the parser for agreement with the design.
+--------------------------------
+<b>Testing Code:</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Java
+import org.antlr.v4.runtime.*;
+import java.io.File;
+import java.io.FileInputStream;
+
+public class Test {
+    public static void parseHelper(String file) throws Exception {
+        FileInputStream in = new FileInputStream(file);
+        CharStream input = CharStreams.fromStream(in);
+        DSLLexer lexer  = new DSLLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        DSLParser parser = new DSLParser(tokens);
+        parser.parse();
+    }
+
+    public static void main(String[] args) throws Exception {
+        File validDir = new File("tests/valid/");
+        File[] validFiles = validDir.listFiles();
+        if (validFiles != null) {
+            for (File file : validFiles) {
+                System.out.println("Testing File (Valid Input): " + file.getName());
+                parseHelper(file.getPath());
+                Thread.sleep(10);
+                System.out.println("Done: Expect No Error.\n");
+            }
+        }
+
+        File invalidDir = new File("tests/invalid/");
+        File[] invalidFiles = invalidDir.listFiles();
+        if (invalidFiles != null) {
+            for (File file : invalidFiles) {
+                System.out.println("Testing File (Invalid Input): " + file.getPath());
+                parseHelper(file.getPath());
+                Thread.sleep(10);
+                System.out.println("Done: Expect Error Above.\n");
+            }
+        }
+    };
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Screenshot (Test Results pt. 1):</b><br>
+![](images/p02_testresults1.png)
+
+<b>Screenshot (Test Results pt. 2):</b><br>
+![](images/p02_testresults2.png)
+
+<b>Screenshot (Test Results pt. 3):</b><br>
+![](images/p02_testresults2.png)
+
+<b>Screenshot (Parse Tree for Program 1):</b><br>
+![](images/p02_parsetree1.png)
+
+<b>Screenshot (Parse Tree for Program 2):</b><br>
+![](images/p02_parsetree2.png)
+
+<b>Screenshot (Parse Tree for Program 3):</b><br>
+![](images/p02_parsetree3.png)
+
+After some debugging, the parser now accepts and rejects inputs as expected. See below for information on the exact tests.
+
+Create more valid and invalid inputs that fully test your language design.
+--------------------------------
+Because of grammar changes, the tests created for the last milestone's grammar no longer work. We had to create new tests and modify old tests to test the ANTLR parser. We ended up with 3 valid input programs (which contain multiple statements that would work as standalone examples), 1 valid input example of a language feature, and 8 invalid input examples. See below for the exact tests (the exact behavior being tested in described in the comments). They are located in the "tests" folder of the IntelliJ project. 
+
+<b>Valid Input: defaultidx.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* valid: un-indexed list ID defaults to first element */
+hi: "Hello World".
+Print hi.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Valid Input: program1.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* valid: personalized recipients */
+
+recipient: "John", "Joe", "James", "Jessie".
+
+Begin Template mail:
+`Dear {recipient (i)},
+This is an email, personalized to you.`
+End Template.
+
+i = 1.
+Begin Loop, Repeat [recipient ("Count")] Times:
+    Generate mail.
+    Increment i.
+End Loop.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Valid Input: program2.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* valid: shift assignment */
+
+recipient: "John", "Joe", "James", "Jessie".
+shift: "day", "night".
+
+Begin Template mail:
+`Dear {recipient (i)},
+Come in for the {shift (i Mod 2 + 1)} shift tomorrow.`
+End Template.
+
+i = 1.
+Begin Loop, Repeat [recipient ("Count")] Times:
+    Generate mail.
+    Increment i.
+End Loop.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Valid Input: program3.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* valid: task assignment */
+
+recipient: "John", "Joe", "James", "Jessie".
+project: "website", "desktop app".
+platform: "Mac", "Windows".
+
+Begin Template mail:
+`Dear {recipient (c)},
+Your task is to create a {project (i)} for {platform (j)}.`
+End Template.
+
+c = 1.
+i = 1.
+Begin Loop, Repeat [project ("Count")] Times:
+    j = 1.
+    Begin Loop, Repeat [platform ("Count")] Times:
+        Generate mail.
+        Increment c.
+        Increment j.
+    End Loop.
+    Increment i.
+End Loop.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: allcapserror.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid due to case mismatch */
+PRINT "Hello World".
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: cstyleifstmt.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid: if statement using c style syntax */
+if (i < 0) {
+    i = 0;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: exprparens.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid: parenthesis not supported in expressions */
+num = 32487 + (87239 / 1374).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: invalidtype.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid: declaring list of numbers */
+numbers: 1, 2, 3, 4.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: noloopend.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid: loop not terminated */
+Begin Loop, Repeat [recipient ("Count")] Times:
+    Generate mail.
+    Increment i.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: notenclosed.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid: content not enclosed with backticks */
+Begin Template mail:
+Dear {recipient (i)},
+This is an email, personalized to you.
+End Template.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: noterminate.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid: statements not terminated with periods */
+Begin Loop, Repeat [recipient ("Count")] Times:
+    Generate mail
+    Increment i
+End Loop
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<b>Invalid Input: printparens.dsl</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+/* invalid: print enclosed in parentheses */
+Print("Hello").
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 P03: Prototype
 ======================
