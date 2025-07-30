@@ -130,6 +130,8 @@ P01: Grammar
 ======================
 Create a grammar for the DSL.
 --------------------------------
+<b>Note:</b> This grammar is outdated now, refer to the ANTLR version.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CFG
 program -> statement*
 
@@ -191,8 +193,8 @@ Test example inputs against grammar.
 
 Our grammar changed significantly (see the next subsection), so we designed new inputs and verified that the valid ones work and the invalid ones don't. The three example programs contain various "statements" (which are valid as standalone inputs) to achieve specific functionality, while the examples of syntactically invalid statements fail to conform to the grammar. The semantically invalid statements do pass the grammar, but would lead to runtime errors during our translation step. For example program 1 only (due to how long it takes), I have attached a hand-drawn parse tree showing that it works (the other programs were verified by looking at the grammar).
 
-<b>Hand-Drawn Parse Tree (Slightly Outdated):</b><br>
-![](files/p01_parsetree.jpg)
+<b>Hand-Drawn Parse Tree (Outdated Now):</b><br>
+![](images/p01_parsetree.jpg)
 
 <b>Example Program 1 - Personalized Mails w/ Loop:</b>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
