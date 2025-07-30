@@ -1,3 +1,5 @@
+/* valid: shift assignment */
+
 recipient: "John", "Joe", "James", "Jessie".
 shift: "day", "night".
 

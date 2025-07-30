@@ -36,7 +36,7 @@ Create example inputs, both valid and invalid.
 --------------------------------
 <b>Key Questions:</b> What is the expected output for some examples of valid input? How will you detect and report those that are invalid?
 
-<b>Note:</b> These examples are outdated due to the changes made to the grammar.
+<b>Note:</b> These examples are outdated due to changes made to the grammar.
 
 <u>Valid Comment Input:</u><br>
 ``` DSL
@@ -189,6 +189,8 @@ skip COMMENT -> "/*" CHAR*? "*/"
 
 Test example inputs against grammar.
 --------------------------------
+<b>Note:</b> These inputs are outdated due to changes made to the grammar.
+
 <b>Key Question:</b> Do the valid inputs work and invalid inputs not?<br>
 
 Our grammar changed significantly (see the next subsection), so we designed new inputs and verified that the valid ones work and the invalid ones don't. The three example programs contain various "statements" (which are valid as standalone inputs) to achieve specific functionality, while the examples of syntactically invalid statements fail to conform to the grammar. The semantically invalid statements do pass the grammar, but would lead to runtime errors during our translation step. For example program 1 only (due to how long it takes), I have attached a hand-drawn parse tree showing that it works (the other programs were verified by looking at the grammar).

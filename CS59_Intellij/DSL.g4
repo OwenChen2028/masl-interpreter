@@ -4,32 +4,32 @@ parse : statement* EOF;
 
 statement : (' ' | ENDL)* ( declaration
                           | conditional | loop
-                          | genStmt | printStmt ) ENDL*;
+                          | genStmt | printStmt ) '.' ENDL*;
 
 declaration : numDec | listDec | templateDec;
 
-numDec : ( (ID ' = ' expression) | numOp ) '.';
+numDec : ( (ID ' = ' expression) | numOp );
 
 numOp : ('Increment ' ID) | ('Decrement ' ID);
 
-listDec : ID ': ' possibleStr (', ' possibleStr)* '.';
+listDec : ID ': ' possibleStr (', ' possibleStr)*;
 
 templateDec : 'Begin Template ' ID ':' ENDL*
           (' ' | ENDL)* content ENDL* (' ' | ENDL)*
-          'End Template.';
+          'End Template';
 
 conditional : 'Begin Check, If [' expression ']:' ENDL*
               statement*? (' ' | ENDL)*
-              'End Check.';
+              'End Check';
 
 loop : 'Begin Loop, ' ( 'Repeat [' expression '] Times'
                       | 'While [' expression ']' ) ':' ENDL*
         statement*? (' ' | ENDL)*
-        'End Loop.';
+        'End Loop';
         
-genStmt : 'Generate ' ID '.';
+genStmt : 'Generate ' ID;
 
-printStmt : 'Print ' (possibleStr | expression) '.';
+printStmt : 'Print ' (possibleStr | expression);
 
 expression : ( possibleNum (OP possibleNum)* )
            | ( possibleStr ' In ' ID );
@@ -42,7 +42,7 @@ content : (substitution | CNT)*?;
 
 substitution : (ID | indexedID);
 
-indexedID : ID ' (' (expression | '"Count"') ')';
+indexedID : ID ' (' (expression | ('"Count"' | '"Random"')) ')';
 
 CNT : ('`' .*? '{')
     | ('}' .*? '{')

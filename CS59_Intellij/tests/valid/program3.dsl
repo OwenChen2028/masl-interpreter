@@ -1,3 +1,5 @@
+/* valid: task assignment */
+
 recipient: "John", "Joe", "James", "Jessie".
 project: "website", "desktop app".
 platform: "Mac", "Windows".

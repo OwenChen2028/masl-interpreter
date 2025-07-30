@@ -1,3 +1,5 @@
+/* valid: personalized recipients */
+
 recipient: "John", "Joe", "James", "Jessie".
 
 Begin Template mail:
