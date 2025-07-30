@@ -1,0 +1,52 @@
+program -> statement*
+
+statement -> (' ' | '\n')* ( declaration
+                     | conditional | loop
+                     | genStmt | printStmt ) (' ' | '\n')*
+
+declaration -> numDec | listDec | bodyDec
+
+numDec -> (ID " = " expression '\n') | numOp
+
+numOp -> ("Increment " ID) | ("Decrement " ID)
+
+listDec -> ID ": " possibleStr (", " possibleStr)* '\n'
+
+bodyDec -> "Begin Body " ID ":\n"
+           content '\n'
+           "End Body\n"
+
+conditional -> "Begin Check, If [" expression "]:\n"
+               statement*?
+               "End Check\n"
+
+loop -> "Begin Loop, " ( "Repeat [" expression "] Times"
+                     | "While [" expression "]:\n"
+        statement*?
+        "End Loop\n"
+
+genStmt -> "Generate " ID '\n'
+
+printStmt -> "Print " (possibleStr | expression) '\n'
+
+expression -> ( possibleNum (OP possibleNum)* )
+              | (possibleStr " In " ID)
+
+possibleNum -> NUM | ID | indexedID
+
+possibleStr -> string | ID | indexedID
+
+string -> '\"' CHAR*? '\"'
+
+content -> ("{" (ID | indexedID) "}" | CHAR)*?
+
+indexedID -> ID ' (' (expression | '\"' "Count" '\"') ')'
+
+ID -> (a-z | A-Z) (a-z | A-Z | 0-9)*
+NUM -> (0-9)+
+OP -> ' ' ('+' | '-' | '*' | '/' | 'Mod'
+         | 'Is' | ">=" | "<=" | '>' | '<'
+         | 'And' | 'Or' | 'Not') ' '
+CHAR -> [any character]
+
+skip COMMENT -> "/*" CHAR*? "*/"
