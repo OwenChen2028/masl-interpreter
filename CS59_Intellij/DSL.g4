@@ -1,11 +1,11 @@
 grammar DSL;
 
-parse : statement* EOF;
+parse : (statement)* statement? EOF;
 
-statement : (' ' | ENDL)* ( declaration
-                          | operation
-                          | conditional | loop
-                          | genStmt | ioStmt ) '.' (' ' | ENDL)*?;
+statement : ( declaration
+            | operation
+            | conditional | loop
+            | genStmt | ioStmt ) '.';
 
 declaration : numDec | listDec | templateDec;
 
@@ -20,26 +20,26 @@ numOp : ('Increment ' ID)
 
 listOp : 'Assign ' + (ID | indexedID) + ' To ' + possibleStr;
 
-templateDec : 'Begin Template ' ID ':' ENDL*
-              (' ' | ENDL)* content ENDL* (' ' | ENDL)*
-              'End Template';
+templateDec : 'Begin Template ' ID ':\n'
+              content
+              '\nEnd Template';
 
-conditional : 'Begin Check, If ' expression ':' ENDL*
-              statement*? (' ' | ENDL)*
-              'End Check';
+conditional : 'Begin Check, If ' expression ':\n'
+              statement*?
+              '\nEnd Check';
 
 loop : 'Begin Loop, ' ( 'Repeat ' expression ' Times'
-                      | 'While ' expression ) ':' ENDL*
-        statement*? (' ' | ENDL)*
-        'End Loop';
+                      | 'While ' expression ) ':\n'
+        statement*?
+        '\nEnd Loop';
         
 genStmt : 'Generate ' ID;
 
 ioStmt : ( 'Read ' (ID | indexedID) )
        | ( 'Write ' (possibleStr | expression) );
 
-expression : ( possibleNum (OP possibleNum)* )
-           | ( possibleStr ' In ' ID );
+expression : ('Not ')? ( possibleNum (OP possibleNum)* )
+                     | ( possibleStr ' In ' ID );
 
 possibleNum : NUM | ID | indexedID;
 
@@ -58,10 +58,10 @@ BODY : ('`' .*? '{')
 
 ID : [a-zA-Z] [a-zA-Z0-9]*;
 NUM : [0-9]+;
-OP : ' ' ('+' | '-' | '*' | '/' | 'Mod'
-         | 'Is' | '>=' | '<=' | '>' | '<'
-         | 'And' | 'Or' | 'Not') ' ';
+OP : ('+' | '-' | '*' | '/' | ' Mod '
+    | ' Is ' | '>=' | '<=' | '>' | '<'
+    | ' And ' | ' Or ');
 STR : '"' .*? '"';
-ENDL : ('\r')? '\n';
 
+WS : [ \t\r\n] -> skip;
 COMMENT : '/*' .*? '*/' -> skip;
