@@ -2,15 +2,18 @@
 
 Author
 =============
-
 <div class="noheader firstcol">
                   |             
 ------------------|-------------
 Team Members      | Owen Chen & Cody Zang
 Computer + OS     | Windows 11 & macOS
-Time to Complete  | ~8.5 hours so far
+Time to Complete  | ~8.5 (×2) hours so far
 Additional Help   | Consulting w/ Prof. & TAs
 </div>
+
+Disclaimer
+================
+This readme is more of a documentation of the development process rather than the most recent version of the DSL. Many of the grammar rules and examples outlined in the older sections are outdated and should be viewed as such. 
 
 Meeting Dates
 ================
@@ -35,8 +38,6 @@ There are several key issues with existing automation tools for emails. The firs
 Create example inputs, both valid and invalid.
 --------------------------------
 <b>Key Questions:</b> What is the expected output for some examples of valid input? How will you detect and report those that are invalid?
-
-<b>Note:</b> These examples are outdated due to changes made to the grammar.
 
 <u>Valid Comment Input:</u><br>
 ``` DSL
@@ -120,137 +121,132 @@ Talk with the professor, and get approval.
 --------------------------------
 Done, see meeting dates section.
 
-
 Include meeting dates and approval dates in readme.
 --------------------------------
 Done, see meeting dates section.
-
 
 P01: Grammar
 ======================
 Create a grammar for the DSL.
 --------------------------------
-<b>Note:</b> This grammar is outdated now, refer to the ANTLR version.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CFG
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Pseudocode
 program -> statement*
 
-statement -> (' ' | '\n')* ( declaration
+statement -> (‘\n’)* ( declaration
                      | conditional | loop
-                     | genStmt | printStmt ) (' ' | '\n')*
+                     | genStmt | printStmt ) (‘\n’)*
 
 declaration -> numDec | listDec | bodyDec
 
-numDec -> (ID " = " expression '\n') | numOp
+numDec -> (ID “ = ” expression ‘\n’) | numOp
 
-numOp -> ("Increment " ID) | ("Decrement " ID)
+numOp -> (“Increment ” ID) | (“Decrement ” ID)
 
-listDec -> ID ": " possibleStr (", " possibleStr)* '\n'
+listDec -> ID “: ” possibleStr (“, ” possibleStr)* ‘\n’
 
-bodyDec -> "Begin Body " ID ":\n"
-           content '\n'
-           "End Body\n"
+bodyDec -> “Begin Body ” ID “:\n”
+           content ‘\n’
+           “End Body\n”
 
-conditional -> "Begin Check, If [" expression "]:\n"
-               statement*?
-               "End Check\n"
+conditional -> “Begin Check ” expression “:\n”
+               statement*
+               “End Check\n”
 
-loop -> "Begin Loop, " ( "Repeat [" expression "] Times"
-                     | "While [" expression "]:" ) '\n'
-        statement*?
-        "End Loop\n"
+loop -> “Begin Loop ” ( “For ” expression “ Times”
+                     | “While ” expression ) “:\n”
+        statement*
+        “End Loop\n”
 
-genStmt -> "Generate " ID '\n'
+genStmt -> “Generate ” ID ‘\n’
 
-printStmt -> "Print " (possibleStr | expression) '\n'
+printStmt -> “Print ” (possibleStr | expression) ‘\n’
 
 expression -> ( possibleNum (OP possibleNum)* )
-              | (possibleStr " In " ID)
+              | (possibleStr “ In ” ID)
+
+indexedID -> “{ “ ID ‘ (’ (expression | “Count”) ‘)’ “ }”
 
 possibleNum -> NUM | ID | indexedID
 
 possibleStr -> string | ID | indexedID
 
-string -> '\"' CHAR*? '\"'
+string -> ‘\“’ CHAR* ‘\”’
 
-content -> ("{" (ID | indexedID) "}" | CHAR)*?
-
-indexedID -> ID ' (' (expression | '\"' "Count" '\"') ')'
+content -> (indexedID | CHAR)*
 
 ID -> (a-z | A-Z) (a-z | A-Z | 0-9)*
 NUM -> (0-9)+
-OP -> ' ' ('+' | '-' | '*' | '/' | 'Mod'
-         | 'Is' | ">=" | "<=" | '>' | '<'
-         | 'And' | 'Or' | 'Not') ' '
-CHAR -> [any character]
+OP -> ‘ ’ (‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘Mod’
+         | ‘Is’ | “>=” | “<=” | ‘>’ | ‘<’
+         | ‘And’ | ‘Or’ | ‘Not’) ‘ ’
+CHAR -> any ASCII character
 
-skip COMMENT -> "/*" CHAR*? "*/"
+skip comment -> “/*” [any character]* “*/”
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Test example inputs against grammar.
 --------------------------------
-<b>Note:</b> These inputs are outdated due to changes made to the grammar.
-
 <b>Key Question:</b> Do the valid inputs work and invalid inputs not?<br>
 
 Our grammar changed significantly (see the next subsection), so we designed new inputs and verified that the valid ones work and the invalid ones don't. The three example programs contain various "statements" (which are valid as standalone inputs) to achieve specific functionality, while the examples of syntactically invalid statements fail to conform to the grammar. The semantically invalid statements do pass the grammar, but would lead to runtime errors during our translation step. For example program 1 only (due to how long it takes), I have attached a hand-drawn parse tree showing that it works (the other programs were verified by looking at the grammar).
 
-<b>Hand-Drawn Parse Tree (Outdated Now):</b><br>
-![](images/p01_parsetree.jpg)
+<b>Hand-Drawn Parse Tree for Example 1:</b><br>
+![](files/p01_parsetree.jpg)
 
 <b>Example Program 1 - Personalized Mails w/ Loop:</b>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
-recipient: "John", "Joe", "James", "Jessie"
+recipient: “John”, "Joe", “James”, “Jessie”
 
 Begin Body mail:
-Dear {recipient (i)},
+Dear { recipient (i) },
 This is an email, personalized to you.
 End Body
 
 i = 1
-Begin Loop, Repeat [recipient ("Count")] Times:
-    Generate mail
-    Increment i
+Begin Loop For { recipient (Count) } Times:
+Generate mail
+Increment i
 End Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Example Program 2 - Shift Assignment w/ Modulos:</b>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
-recipient: "John", "Joe", "James", "Jessie"
-shift: "day", "night"
+recipient: “John”, "Joe", “James”, “Jessie”
+shift: “day”, “night”
 
 Begin Body mail:
-Dear {recipient (i)},
-Come in for the {shift (i Mod 2 + 1)} shift tomorrow.
+Dear { recipient (i) },
+Come in for the { shift (i Mod 2 + 1) } shift tomorrow.
 End Body
 
 i = 1
-Begin Loop, Repeat [recipient ("Count")] Times:
-    Generate mail
-    Increment i
+Begin Loop For { recipient (Count) } Times:
+Generate mail
+Increment i
 End Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Example Program 3 - Task Assignment w/ Nested Loops:</b>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
-recipient: "John", "Joe", "James", "Jessie"
-project: "website", "desktop app"
-platform: "Mac", "Windows"
+recipient: “John”, "Joe", “James”, “Jessie”
+project: “website”, “desktop app”
+platform: “Mac”, “Windows”
 
 Begin Body mail:
-Dear {recipient (c)},
-Your task is to create a {project (i)} for {platform (j)}.
+Dear { recipient (c) },
+Your task is to create a { project (i) } for { platform (j) }.
 End Body
 
 c = 1
 i = 1
-Begin Loop, Repeat [project ("Count")] Times:
-    j = 1
-    Begin Loop, Repeat [platform ("Count")] Times:
-        Generate mail
-        Increment c
-        Increment j
-    End Loop
-    Increment i
+Begin Loop For { project (Count) } Times:
+j = 1
+Begin Loop For { platform (Count) } Times:
+Generate mail
+Increment c
+Increment j
+End Loop
+Increment i
 End Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -262,7 +258,7 @@ if (i < 0) {
 }
 print(i)
 
-/* capitalization errors */
+/* capitalization errors*/
 print i
 PRINT i
 
@@ -270,7 +266,7 @@ PRINT i
 Begin Body invalid1:
 */
 End Loop
-Begin Check, If i = 0
+Begin Check i = 0
 
 /* ignoring whitespace conventions */
 BeginBody invalid2: testing 123 EndBody
@@ -285,7 +281,7 @@ Print recipients (0)
 Increment var
 
 /* out of bonds index */
-Print {recipients (100)}
+Print { recipients (100) }
 
 /* division by 0 */
 i = 1 / 0
@@ -294,7 +290,7 @@ i = 1 / 0
 i = 1 And 2
 
 /* incorrect type of identifier */
-string: "hello"
+string: “hello”
 recipients(string)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -303,11 +299,11 @@ Do you have to make corrections or changes?
 Numerous changes were made to the grammar for various reasons, such as for removing ambiguity in parsing/writing inputs. Several features were added for increased usability, and several were removed due to introducing complications (+ minor syntax changes). 
 
 Here the changes that we've deemed notable:
-* Integers and expressions have been added because they are extremely useful for many automation tasks. Integer declaration is done by assigning an identifier to an initial value with '=' (type is inferred). They can be incremented and decremented using "Increment" and "Decrement" (they are unary operators that go before the identifier). Expressions support multiple binary operations in sequence from left to right including arithmetic, logic, and comparisons (parenthesis are not supported to discourage convoluted equations and reduce translation complexity, 0 and 1 are treated as booleans for logic operators and comparison results). 
+* Integers and expressions have been added because they are extremely useful for many automation tasks. Integer declaration is done by assigning an identifier to an initial value with ‘=’ (type is inferred). They can be incremented and decremented using "Increment" and "Decrement" (they are unary operators that go before the identifier). Expressions support multiple binary operations in sequence from left to right including arithmetic, logic, and comparisons (parenthesis are not supported to discourage convoluted equations and reduce translation complexity, 0 and 1 are treated as booleans for logic operators and comparison results). 
 * Nested statements, including nested loops, are now possible. As seen in the 3rd example program, Iterating over all combinations of things in lists is a common task that are language is not capable of. Nested conditionals are also supported; a result of this is that our language is very powerful, capable of some GPL tasks. 
 * Bodies no longer have parameters. To achieve the same functionality, indexing will be evaluated at runtime, so declaring a variable with the former parameter's name and modifying that variable will result in the same behavior (our examples all show this behavior for personalized recipient names). 
-* There is no longer whitespace, as ignoring spaces and new lines would lead to poorly formatted mail bodies. Enforcing whitespace rules also allows for neater code, which is something that we want to "encourage."
-* ((This is no longer a comment)) /* This is. It looks much better, it's not actually that difficult for non-programmers to learn, and most importantly, people won't confuse it with mathematical notation and try to use it in expressions. */
+* There is no longer whitespace, as ignoring spaces and new lines would lead to poorly formatted mail bodies. Enforcing whitespace rules also allows for neater code, which is something that we want to “encourage.”
+* ((This is no longer a comment)) /* This is. It looks much better, it's not actually that difficult for non-programmers to learn, and most importantly, people won’t confuse it with mathematical notation and try to use it in expressions. */
 * Pairing strings with emails (and having a special email type) is deprecated. Emails can simply be stored as strings in a separate list, so pairing adds too much translation complexity for no good reason. 
 
 P02: Parser
@@ -315,7 +311,7 @@ P02: Parser
 Use ANTLR to generate a parser for the language.
 --------------------------------
 <b>ANTLR Grammar:</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ g4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ANTLR
 grammar DSL;
 
 parse : statement* EOF;
@@ -449,14 +445,14 @@ Create more valid and invalid inputs that fully test your language design.
 Because of grammar changes, the tests created for the last milestone's grammar no longer work. We had to create new tests and modify old tests to test the ANTLR parser. We ended up with 3 valid input programs (which contain multiple statements that would work as standalone examples), 1 valid input example of a language feature, and 8 invalid input examples. See below for the exact tests (the exact behavior being tested in described in the comments). They are located in the "tests" folder of the IntelliJ project. 
 
 <b>Valid Input: defaultidx.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* valid: un-indexed list ID defaults to first element */
 hi: "Hello World".
 Print hi.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Valid Input: program1.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* valid: personalized recipients */
 
 recipient: "John", "Joe", "James", "Jessie".
@@ -474,7 +470,7 @@ End Loop.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Valid Input: program2.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* valid: shift assignment */
 
 recipient: "John", "Joe", "James", "Jessie".
@@ -493,7 +489,7 @@ End Loop.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Valid Input: program3.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* valid: task assignment */
 
 recipient: "John", "Joe", "James", "Jessie".
@@ -519,13 +515,13 @@ End Loop.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: allcapserror.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid due to case mismatch */
 PRINT "Hello World".
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: cstyleifstmt.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid: if statement using c style syntax */
 if (i < 0) {
     i = 0;
@@ -533,19 +529,19 @@ if (i < 0) {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: exprparens.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid: parenthesis not supported in expressions */
 num = 32487 + (87239 / 1374).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: invalidtype.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid: declaring list of numbers */
 numbers: 1, 2, 3, 4.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: noloopend.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid: loop not terminated */
 Begin Loop, Repeat [recipient ("Count")] Times:
     Generate mail.
@@ -553,7 +549,7 @@ Begin Loop, Repeat [recipient ("Count")] Times:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: notenclosed.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid: content not enclosed with backticks */
 Begin Template mail:
 Dear {recipient (i)},
@@ -562,7 +558,7 @@ End Template.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: noterminate.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid: statements not terminated with periods */
 Begin Loop, Repeat [recipient ("Count")] Times:
     Generate mail
@@ -571,13 +567,28 @@ End Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Invalid Input: printparens.dsl</b>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* invalid: print enclosed in parentheses */
 Print("Hello").
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 P03: Prototype
 ======================
+Generate a translator based on the desired functionality and examples.
+--------------------------------
+<b>Updated ANTLR Grammar:</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ANTLR
+TBD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+Test the translator against your trivial inputs (valid and invalid).
+--------------------------------
+TBD
+
+Begin testing against non-trivial inputs.
+--------------------------------
 TBD
 
 P04: Release Candidate
