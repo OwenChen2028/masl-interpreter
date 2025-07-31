@@ -12,7 +12,7 @@ public class Test {
         parser.parse();
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void runAllTests() throws Exception {
         File validDir = new File("tests/valid/");
         File[] validFiles = validDir.listFiles();
         if (validFiles != null) {
@@ -34,5 +34,9 @@ public class Test {
                 System.out.println("Done: Expect Error Above.\n");
             }
         }
-    };
+    }
+
+    public static void main(String[] args) throws Exception {
+        runAllTests();
+    }
 }

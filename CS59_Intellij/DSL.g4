@@ -3,25 +3,26 @@ grammar DSL;
 parse : statement* EOF;
 
 statement : (' ' | ENDL)* ( declaration
-                          | operation |
+                          | operation
                           | conditional | loop
-                          | genStmt | ioStmt ) '.' ENDL*;
+                          | genStmt | ioStmt ) '.' (' ' | ENDL)*?;
 
 declaration : numDec | listDec | templateDec;
 
-numDec : ( (ID ' = ' expression) | numOp );
+numDec : ID ' = ' expression;
 
 listDec : ID ': ' possibleStr (', ' possibleStr)*;
 
 operation : numOp | listOp;
 
-numOp : ('Increment ' ID) | ('Decrement ' ID);
+numOp : ('Increment ' ID)
+      | ('Decrement ' ID);
 
 listOp : 'Assign ' + (ID | indexedID) + ' To ' + possibleStr;
 
 templateDec : 'Begin Template ' ID ':' ENDL*
-          (' ' | ENDL)* content ENDL* (' ' | ENDL)*
-          'End Template';
+              (' ' | ENDL)* content ENDL* (' ' | ENDL)*
+              'End Template';
 
 conditional : 'Begin Check, If ' expression ':' ENDL*
               statement*? (' ' | ENDL)*
@@ -44,13 +45,13 @@ possibleNum : NUM | ID | indexedID;
 
 possibleStr : STR | ID | indexedID;
 
-content : (substitution | CNT)*?;
+content : (substitution | BODY)*?;
 
 substitution : (ID | indexedID);
 
 indexedID : ID ' (' (expression | ('"Count"' | '"Random"')) ')';
 
-CNT : ('`' .*? '{')
+BODY : ('`' .*? '{')
     | ('}' .*? '{')
     | ('}' .*? '`')
     | ('`' .*? '`');

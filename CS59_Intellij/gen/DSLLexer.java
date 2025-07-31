@@ -19,7 +19,7 @@ public class DSLLexer extends Lexer {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, CNT=28, ID=29, NUM=30, OP=31, STR=32, ENDL=33, 
+		T__24=25, T__25=26, T__26=27, BODY=28, ID=29, NUM=30, OP=31, STR=32, ENDL=33, 
 		COMMENT=34;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -34,7 +34,7 @@ public class DSLLexer extends Lexer {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 			"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
 			"T__17", "T__18", "T__19", "T__20", "T__21", "T__22", "T__23", "T__24", 
-			"T__25", "T__26", "CNT", "ID", "NUM", "OP", "STR", "ENDL", "COMMENT"
+			"T__25", "T__26", "BODY", "ID", "NUM", "OP", "STR", "ENDL", "COMMENT"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -53,7 +53,7 @@ public class DSLLexer extends Lexer {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, "CNT", "ID", "NUM", "OP", "STR", "ENDL", "COMMENT"
+			null, null, null, null, "BODY", "ID", "NUM", "OP", "STR", "ENDL", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
