@@ -1,4 +1,4 @@
-// Generated from C:/Users/Owen/Documents/cs59-dsl-project/CS59_Intellij/DSL.g4 by ANTLR 4.13.2
+// Generated from C:/Users/Owen/Documents/cs59_DSL/CS59_Intellij/DSL.g4 by ANTLR 4.13.2
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -64,6 +64,30 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterListDec(DSLParser.ListDecContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitListDec(DSLParser.ListDecContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOperation(DSLParser.OperationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOperation(DSLParser.OperationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNumOp(DSLParser.NumOpContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -76,13 +100,13 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListDec(DSLParser.ListDecContext ctx) { }
+	@Override public void enterListOp(DSLParser.ListOpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListDec(DSLParser.ListDecContext ctx) { }
+	@Override public void exitListOp(DSLParser.ListOpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -136,13 +160,13 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrintStmt(DSLParser.PrintStmtContext ctx) { }
+	@Override public void enterIoStmt(DSLParser.IoStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrintStmt(DSLParser.PrintStmtContext ctx) { }
+	@Override public void exitIoStmt(DSLParser.IoStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

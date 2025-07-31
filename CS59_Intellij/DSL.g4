@@ -3,33 +3,39 @@ grammar DSL;
 parse : statement* EOF;
 
 statement : (' ' | ENDL)* ( declaration
+                          | operation |
                           | conditional | loop
-                          | genStmt | printStmt ) '.' ENDL*;
+                          | genStmt | ioStmt ) '.' ENDL*;
 
 declaration : numDec | listDec | templateDec;
 
 numDec : ( (ID ' = ' expression) | numOp );
 
+listDec : ID ': ' possibleStr (', ' possibleStr)*;
+
+operation : numOp | listOp;
+
 numOp : ('Increment ' ID) | ('Decrement ' ID);
 
-listDec : ID ': ' possibleStr (', ' possibleStr)*;
+listOp : 'Assign ' + (ID | indexedID) + ' To ' + possibleStr;
 
 templateDec : 'Begin Template ' ID ':' ENDL*
           (' ' | ENDL)* content ENDL* (' ' | ENDL)*
           'End Template';
 
-conditional : 'Begin Check, If [' expression ']:' ENDL*
+conditional : 'Begin Check, If ' expression ':' ENDL*
               statement*? (' ' | ENDL)*
               'End Check';
 
-loop : 'Begin Loop, ' ( 'Repeat [' expression '] Times'
-                      | 'While [' expression ']' ) ':' ENDL*
+loop : 'Begin Loop, ' ( 'Repeat ' expression ' Times'
+                      | 'While ' expression ) ':' ENDL*
         statement*? (' ' | ENDL)*
         'End Loop';
         
 genStmt : 'Generate ' ID;
 
-printStmt : 'Print ' (possibleStr | expression);
+ioStmt : ( 'Read ' (ID | indexedID) )
+       | ( 'Write ' (possibleStr | expression) );
 
 expression : ( possibleNum (OP possibleNum)* )
            | ( possibleStr ' In ' ID );

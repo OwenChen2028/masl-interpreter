@@ -1,4 +1,4 @@
-// Generated from C:/Users/Owen/Documents/cs59-dsl-project/CS59_Intellij/DSL.g4 by ANTLR 4.13.2
+// Generated from C:/Users/Owen/Documents/cs59_DSL/CS59_Intellij/DSL.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -34,17 +34,29 @@ public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumDec(DSLParser.NumDecContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DSLParser#listDec}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListDec(DSLParser.ListDecContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DSLParser#operation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperation(DSLParser.OperationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DSLParser#numOp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNumOp(DSLParser.NumOpContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link DSLParser#listDec}.
+	 * Visit a parse tree produced by {@link DSLParser#listOp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListDec(DSLParser.ListDecContext ctx);
+	T visitListOp(DSLParser.ListOpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DSLParser#templateDec}.
 	 * @param ctx the parse tree
@@ -70,11 +82,11 @@ public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGenStmt(DSLParser.GenStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link DSLParser#printStmt}.
+	 * Visit a parse tree produced by {@link DSLParser#ioStmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrintStmt(DSLParser.PrintStmtContext ctx);
+	T visitIoStmt(DSLParser.IoStmtContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DSLParser#expression}.
 	 * @param ctx the parse tree

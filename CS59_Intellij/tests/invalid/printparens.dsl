@@ -1,2 +1,2 @@
 /* invalid: print enclosed in parentheses */
-Print("Hello").
+Write ("Hello").

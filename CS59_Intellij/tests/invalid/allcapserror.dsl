@@ -1,2 +1,2 @@
 /* invalid due to case mismatch */
-PRINT "Hello World".
+WRITE "Hello World".
