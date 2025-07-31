@@ -1,6 +1,6 @@
 grammar DSL;
 
-parse : (statement)* statement? EOF;
+parse : statement* EOF;
 
 statement : ( declaration
             | operation
@@ -9,9 +9,9 @@ statement : ( declaration
 
 declaration : numDec | listDec | templateDec;
 
-numDec : ID ' = ' expression;
+numDec : ID '=' expression;
 
-listDec : ID ': ' possibleStr (', ' possibleStr)*;
+listDec : ID ':' possibleStr (',' possibleStr)*;
 
 operation : numOp | listOp;
 
@@ -20,18 +20,18 @@ numOp : ('Increment ' ID)
 
 listOp : 'Assign ' + (ID | indexedID) + ' To ' + possibleStr;
 
-templateDec : 'Begin Template ' ID ':\n'
+templateDec : 'Begin Template ' ID ':'
               content
-              '\nEnd Template';
+              'End Template';
 
-conditional : 'Begin Check, If ' expression ':\n'
+conditional : 'Begin Check, If ' expression ':'
               statement*?
-              '\nEnd Check';
+              'End Check';
 
 loop : 'Begin Loop, ' ( 'Repeat ' expression ' Times'
-                      | 'While ' expression ) ':\n'
+                      | 'While ' expression ) ':'
         statement*?
-        '\nEnd Loop';
+        'End Loop';
         
 genStmt : 'Generate ' ID;
 
