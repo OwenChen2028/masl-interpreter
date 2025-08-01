@@ -13,13 +13,15 @@ public class Test {
     }
 
     public static void runAllTests() throws Exception {
+        int delay = 50;
+
         File validDir = new File("tests/valid/");
         File[] validFiles = validDir.listFiles();
         if (validFiles != null) {
             for (File file : validFiles) {
                 System.out.println("Testing File (Valid Input): " + file.getName());
                 parseHelper(file.getPath());
-                Thread.sleep(10);
+                Thread.sleep(delay);
                 System.out.println("Done: Expect No Error.\n");
             }
         }
@@ -30,7 +32,7 @@ public class Test {
             for (File file : invalidFiles) {
                 System.out.println("Testing File (Invalid Input): " + file.getPath());
                 parseHelper(file.getPath());
-                Thread.sleep(10);
+                Thread.sleep(delay);
                 System.out.println("Done: Expect Error Above.\n");
             }
         }

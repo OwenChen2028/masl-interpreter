@@ -24,12 +24,14 @@ templateDec : 'Begin Template ' ID ':'
               content
               'End Template';
 
-conditional : 'Begin Check, If ' expression ':'
+conditional : 'Begin Check,'
+            + 'If ' expression ':'
               statement*?
               'End Check';
 
-loop : 'Begin Loop, ' ( 'Repeat ' expression ' Times'
-                      | 'While ' expression ) ':'
+loop : 'Begin Loop,'
+   + ( 'Repeat ' expression ' Times'
+     | 'While ' expression ) ':'
         statement*?
         'End Loop';
         
