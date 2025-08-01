@@ -69,8 +69,8 @@ ID
 NUM
 OP
 STR
-WS
 COMMENT
+WS
 
 rule names:
 parse

@@ -30,8 +30,8 @@ ID=29
 NUM=30
 OP=31
 STR=32
-WS=33
-COMMENT=34
+COMMENT=33
+WS=34
 '.'=1
 '='=2
 ':'=3

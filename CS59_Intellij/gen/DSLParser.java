@@ -19,8 +19,8 @@ public class DSLParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, BODY=28, ID=29, NUM=30, OP=31, STR=32, WS=33, 
-		COMMENT=34;
+		T__24=25, T__25=26, T__26=27, BODY=28, ID=29, NUM=30, OP=31, STR=32, COMMENT=33, 
+		WS=34;
 	public static final int
 		RULE_parse = 0, RULE_statement = 1, RULE_declaration = 2, RULE_numDec = 3, 
 		RULE_listDec = 4, RULE_operation = 5, RULE_numOp = 6, RULE_listOp = 7, 
@@ -51,7 +51,8 @@ public class DSLParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, "BODY", "ID", "NUM", "OP", "STR", "WS", "COMMENT"
+			null, null, null, null, "BODY", "ID", "NUM", "OP", "STR", "COMMENT", 
+			"WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
