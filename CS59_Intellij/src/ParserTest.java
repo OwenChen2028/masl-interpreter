@@ -2,7 +2,7 @@ import org.antlr.v4.runtime.*;
 import java.io.File;
 import java.io.FileInputStream;
 
-public class Test {
+public class ParserTest {
     public static void parseHelper(String file) throws Exception {
         FileInputStream in = new FileInputStream(file);
         CharStream input = CharStreams.fromStream(in);
