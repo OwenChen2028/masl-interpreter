@@ -1,5 +1,5 @@
 /* invalid: loop not terminated */
 Begin Loop,
-Repeat recipient ("Count") Times:
+Repeat 10 Times:
     Generate mail.
     Increment i.

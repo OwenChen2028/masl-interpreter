@@ -1,6 +1,6 @@
 /* invalid: statements not terminated with periods */
 Begin Loop,
-Repeat recipient ("Count") Times:
+Repeat 10 Times:
     Generate mail
     Increment i
 End Loop

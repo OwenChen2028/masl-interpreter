@@ -10,7 +10,7 @@ End Template.
 
 i = 1.
 Begin Loop,
-Repeat recipient ("Count") Times:
+Repeat 4 Times:
     Generate mail.
     Increment i.
 End Loop.

@@ -7,15 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface DSLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link DSLParser#parse}.
+	 * Enter a parse tree produced by {@link DSLParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void enterParse(DSLParser.ParseContext ctx);
+	void enterProgram(DSLParser.ProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DSLParser#parse}.
+	 * Exit a parse tree produced by {@link DSLParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void exitParse(DSLParser.ParseContext ctx);
+	void exitProgram(DSLParser.ProgramContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DSLParser#statement}.
 	 * @param ctx the parse tree
@@ -77,6 +77,26 @@ public interface DSLListener extends ParseTreeListener {
 	 */
 	void exitNumOp(DSLParser.NumOpContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DSLParser#incOp}.
+	 * @param ctx the parse tree
+	 */
+	void enterIncOp(DSLParser.IncOpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#incOp}.
+	 * @param ctx the parse tree
+	 */
+	void exitIncOp(DSLParser.IncOpContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLParser#decOp}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecOp(DSLParser.DecOpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#decOp}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecOp(DSLParser.DecOpContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DSLParser#listOp}.
 	 * @param ctx the parse tree
 	 */
@@ -86,6 +106,26 @@ public interface DSLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitListOp(DSLParser.ListOpContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLParser#setOp}.
+	 * @param ctx the parse tree
+	 */
+	void enterSetOp(DSLParser.SetOpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#setOp}.
+	 * @param ctx the parse tree
+	 */
+	void exitSetOp(DSLParser.SetOpContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLParser#randOp}.
+	 * @param ctx the parse tree
+	 */
+	void enterRandOp(DSLParser.RandOpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#randOp}.
+	 * @param ctx the parse tree
+	 */
+	void exitRandOp(DSLParser.RandOpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DSLParser#templateDec}.
 	 * @param ctx the parse tree
@@ -117,6 +157,26 @@ public interface DSLListener extends ParseTreeListener {
 	 */
 	void exitLoop(DSLParser.LoopContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DSLParser#repeatLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterRepeatLoop(DSLParser.RepeatLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#repeatLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitRepeatLoop(DSLParser.RepeatLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileLoop(DSLParser.WhileLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileLoop(DSLParser.WhileLoopContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DSLParser#genStmt}.
 	 * @param ctx the parse tree
 	 */
@@ -136,6 +196,26 @@ public interface DSLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIoStmt(DSLParser.IoStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLParser#readStmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterReadStmt(DSLParser.ReadStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#readStmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitReadStmt(DSLParser.ReadStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLParser#writeStmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterWriteStmt(DSLParser.WriteStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#writeStmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitWriteStmt(DSLParser.WriteStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DSLParser#expression}.
 	 * @param ctx the parse tree
@@ -167,6 +247,16 @@ public interface DSLListener extends ParseTreeListener {
 	 */
 	void exitPossibleStr(DSLParser.PossibleStrContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DSLParser#indexedID}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndexedID(DSLParser.IndexedIDContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLParser#indexedID}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndexedID(DSLParser.IndexedIDContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DSLParser#content}.
 	 * @param ctx the parse tree
 	 */
@@ -177,23 +267,13 @@ public interface DSLListener extends ParseTreeListener {
 	 */
 	void exitContent(DSLParser.ContentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DSLParser#substitution}.
+	 * Enter a parse tree produced by {@link DSLParser#contentItem}.
 	 * @param ctx the parse tree
 	 */
-	void enterSubstitution(DSLParser.SubstitutionContext ctx);
+	void enterContentItem(DSLParser.ContentItemContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DSLParser#substitution}.
+	 * Exit a parse tree produced by {@link DSLParser#contentItem}.
 	 * @param ctx the parse tree
 	 */
-	void exitSubstitution(DSLParser.SubstitutionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link DSLParser#indexedID}.
-	 * @param ctx the parse tree
-	 */
-	void enterIndexedID(DSLParser.IndexedIDContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link DSLParser#indexedID}.
-	 * @param ctx the parse tree
-	 */
-	void exitIndexedID(DSLParser.IndexedIDContext ctx);
+	void exitContentItem(DSLParser.ContentItemContext ctx);
 }

@@ -10,11 +10,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link DSLParser#parse}.
+	 * Visit a parse tree produced by {@link DSLParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParse(DSLParser.ParseContext ctx);
+	T visitProgram(DSLParser.ProgramContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DSLParser#statement}.
 	 * @param ctx the parse tree
@@ -52,11 +52,35 @@ public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumOp(DSLParser.NumOpContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DSLParser#incOp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIncOp(DSLParser.IncOpContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DSLParser#decOp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecOp(DSLParser.DecOpContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DSLParser#listOp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitListOp(DSLParser.ListOpContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DSLParser#setOp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSetOp(DSLParser.SetOpContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DSLParser#randOp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRandOp(DSLParser.RandOpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DSLParser#templateDec}.
 	 * @param ctx the parse tree
@@ -76,6 +100,18 @@ public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLoop(DSLParser.LoopContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DSLParser#repeatLoop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRepeatLoop(DSLParser.RepeatLoopContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DSLParser#whileLoop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileLoop(DSLParser.WhileLoopContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DSLParser#genStmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -87,6 +123,18 @@ public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIoStmt(DSLParser.IoStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DSLParser#readStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReadStmt(DSLParser.ReadStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DSLParser#writeStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWriteStmt(DSLParser.WriteStmtContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DSLParser#expression}.
 	 * @param ctx the parse tree
@@ -106,21 +154,21 @@ public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPossibleStr(DSLParser.PossibleStrContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DSLParser#indexedID}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIndexedID(DSLParser.IndexedIDContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DSLParser#content}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitContent(DSLParser.ContentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link DSLParser#substitution}.
+	 * Visit a parse tree produced by {@link DSLParser#contentItem}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSubstitution(DSLParser.SubstitutionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link DSLParser#indexedID}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIndexedID(DSLParser.IndexedIDContext ctx);
+	T visitContentItem(DSLParser.ContentItemContext ctx);
 }

@@ -16,13 +16,13 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParse(DSLParser.ParseContext ctx) { }
+	@Override public void enterProgram(DSLParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParse(DSLParser.ParseContext ctx) { }
+	@Override public void exitProgram(DSLParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -100,6 +100,30 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIncOp(DSLParser.IncOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIncOp(DSLParser.IncOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDecOp(DSLParser.DecOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecOp(DSLParser.DecOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterListOp(DSLParser.ListOpContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -107,6 +131,30 @@ public class DSLBaseListener implements DSLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitListOp(DSLParser.ListOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSetOp(DSLParser.SetOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSetOp(DSLParser.SetOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRandOp(DSLParser.RandOpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRandOp(DSLParser.RandOpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -148,6 +196,30 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRepeatLoop(DSLParser.RepeatLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRepeatLoop(DSLParser.RepeatLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterWhileLoop(DSLParser.WhileLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWhileLoop(DSLParser.WhileLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGenStmt(DSLParser.GenStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -167,6 +239,30 @@ public class DSLBaseListener implements DSLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIoStmt(DSLParser.IoStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterReadStmt(DSLParser.ReadStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReadStmt(DSLParser.ReadStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterWriteStmt(DSLParser.WriteStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWriteStmt(DSLParser.WriteStmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -208,6 +304,18 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIndexedID(DSLParser.IndexedIDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIndexedID(DSLParser.IndexedIDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterContent(DSLParser.ContentContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -220,25 +328,13 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSubstitution(DSLParser.SubstitutionContext ctx) { }
+	@Override public void enterContentItem(DSLParser.ContentItemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSubstitution(DSLParser.SubstitutionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIndexedID(DSLParser.IndexedIDContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIndexedID(DSLParser.IndexedIDContext ctx) { }
+	@Override public void exitContentItem(DSLParser.ContentItemContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

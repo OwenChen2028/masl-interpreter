@@ -12,10 +12,10 @@ End Template.
 c = 1.
 i = 1.
 Begin Loop,
-Repeat project ("Count") Times:
+Repeat 2 Times:
     j = 1.
     Begin Loop,
-    Repeat platform ("Count") Times:
+    Repeat 2 Times:
         Generate mail.
         Increment c.
         Increment j.

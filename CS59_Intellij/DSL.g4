@@ -1,6 +1,6 @@
 grammar DSL;
 
-parse : statement* EOF;
+program : statement* EOF;
 
 statement : ( declaration
             | operation
@@ -15,48 +15,63 @@ listDec : ID ':' possibleStr (',' possibleStr)*;
 
 operation : numOp | listOp;
 
-numOp : ('Increment ' ID)
-      | ('Decrement ' ID);
+numOp : incOp | decOp;
 
-listOp : 'Assign ' + (ID | indexedID) + ' To ' + possibleStr;
+incOp : 'Increment ' ID;
+
+decOp : 'Decrement ' ID;
+
+listOp : setOp | randOp;
+
+setOp : 'Set ' ID ' To ' possibleStr ' At ' expression;
+
+randOp : 'Shuffle ' ID;
 
 templateDec : 'Begin Template ' ID ':'
               content
               'End Template';
 
 conditional : 'Begin Check,'
-            + 'If ' expression ':'
+              'If ' expression ':'
               statement*?
               'End Check';
 
-loop : 'Begin Loop,'
-   + ( 'Repeat ' expression ' Times'
-     | 'While ' expression ) ':'
-        statement*?
-        'End Loop';
+loop : repeatLoop | whileLoop;
+
+repeatLoop : 'Begin Loop,'
+             'Repeat ' expression ' Times:'
+             statement*?
+             'End Loop';
+
+whileLoop : 'Begin Loop,'
+            'While ' expression ':'
+            statement*?
+            'End Loop';
         
 genStmt : 'Generate ' ID;
 
-ioStmt : ( 'Read ' (ID | indexedID) )
-       | ( 'Write ' (possibleStr | expression) );
+ioStmt : readStmt | writeStmt;
 
-expression : ('Not ')? ( possibleNum (OP possibleNum)* )
-                     | ( possibleStr ' In ' ID );
+readStmt : 'Read ' ID;
+
+writeStmt : 'Write ' (possibleStr | expression);
+
+expression : possibleNum (OP possibleNum)*;
 
 possibleNum : NUM | ID | indexedID;
 
 possibleStr : STR | ID | indexedID;
 
-content : (substitution | BODY)*?;
+indexedID : ID '(' expression ')';
 
-substitution : (ID | indexedID);
+content : contentItem*?;
 
-indexedID : ID ' (' (expression | ('"Count"' | '"Random"')) ')';
+contentItem : possibleStr | BODY;
 
 BODY : ('`' .*? '{')
-    | ('}' .*? '{')
-    | ('}' .*? '`')
-    | ('`' .*? '`');
+     | ('}' .*? '{')
+     | ('}' .*? '`')
+     | ('`' .*? '`');
 
 ID : [a-zA-Z] [a-zA-Z0-9]*;
 NUM : [0-9]+;
