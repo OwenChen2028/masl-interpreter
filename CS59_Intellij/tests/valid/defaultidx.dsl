@@ -1,3 +1,4 @@
 /* valid: list ID defaults to first element */
-hi: "Hello World".
-Write hi.
+hello: "hi".
+Set hello To "hello".
+Write hello.

@@ -164,7 +164,15 @@ public class Translator implements DSLVisitor<Integer> {
     public Integer visitSetOp(DSLParser.SetOpContext ctx) {
         String listId = ctx.ID().getText();
         if (listIds.containsKey(listId)) {
-            Integer listIndex = visitExpression(ctx.expression());
+            Integer listIndex;
+
+            if (ctx.expression() != null) {
+                listIndex = visitExpression(ctx.expression());
+            }
+            else {
+                listIndex = 1;
+            }
+
             if (listIndex == null) {
                 throw new RuntimeException(String.format("index for \"%s\" evaluated to null (expected a 1-based integer)", listId));
             }
