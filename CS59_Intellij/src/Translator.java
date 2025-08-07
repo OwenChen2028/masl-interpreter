@@ -132,7 +132,7 @@ public class Translator implements DSLVisitor<Integer> {
             numIds.put(numID, numIds.get(numID) + 1);
         }
         else {
-            throw new RuntimeException(String.format("no numeric variable named \"%s\" is in scope", numID));
+            throw new RuntimeException(String.format("no numeric variable named \"%s\" has been declared", numID));
         }
         return null;
     }
@@ -144,7 +144,7 @@ public class Translator implements DSLVisitor<Integer> {
             numIds.put(numID, numIds.get(numID) - 1);
         }
         else {
-            throw new RuntimeException(String.format("no numeric variable named \"%s\" is in scope", numID));
+            throw new RuntimeException(String.format("no numeric variable named \"%s\" has been declared", numID));
         }
         return null;
     }
@@ -178,11 +178,11 @@ public class Translator implements DSLVisitor<Integer> {
                 }
             }
             else {
-                throw new RuntimeException(String.format("index %d is out of bounds (valid range for \"%s\" is 1-%d)", listIndex, listId, listIds.get(listId).size()));
+                throw new RuntimeException(String.format("index %d is out of bounds (valid range for \"%s\" is 1 to %d)", listIndex, listId, listIds.get(listId).size()));
             }
         }
         else {
-            throw new RuntimeException(String.format("no list named \"%s\" is in scope", listId));
+            throw new RuntimeException(String.format("no list named \"%s\" has been declared", listId));
         }
         return null;
     }
@@ -194,7 +194,7 @@ public class Translator implements DSLVisitor<Integer> {
             Collections.shuffle(listIds.get(listId));
         }
         else {
-            throw new RuntimeException(String.format("no list named \"%s\" is in scope", listId));
+            throw new RuntimeException(String.format("no list named \"%s\" has been declared", listId));
         }
         return null;
     }
@@ -299,7 +299,7 @@ public class Translator implements DSLVisitor<Integer> {
             }
         }
         else {
-            throw new RuntimeException(String.format("no template named \"%s\" is in scope", templateId));
+            throw new RuntimeException(String.format("no template named \"%s\" has been declared", templateId));
         }
         return null; // TODO: generate actual files
     }
@@ -384,7 +384,7 @@ public class Translator implements DSLVisitor<Integer> {
                             value /= next;
                         }
                         else {
-                            throw new RuntimeException(String.format("division by zero at operator \"%s\"", ops.get(i - 1).getText()));
+                            throw new RuntimeException("attempted division by zero in expression");
                         }
                         break;
                     case "Mod":
@@ -392,7 +392,7 @@ public class Translator implements DSLVisitor<Integer> {
                             value %= next;
                         }
                         else {
-                            throw new RuntimeException(String.format("modulus by zero at operator \"%s\"", ops.get(i - 1).getText()));
+                            throw new RuntimeException("attempted modulus by zero in expression");
                         }
                         break;
                     case "Is":
@@ -458,7 +458,7 @@ public class Translator implements DSLVisitor<Integer> {
                         return Integer.parseInt(listIds.get(numId).get(0));
                     }
                     catch (NumberFormatException e) {
-                        throw new RuntimeException(String.format("first element of list \"%s\" is not a valid integer (numeric context)", numId));
+                        throw new RuntimeException(String.format("first element of list \"%s\" is not a valid integer", numId));
                     }
                 }
                 else {
@@ -473,7 +473,7 @@ public class Translator implements DSLVisitor<Integer> {
                     return Integer.parseInt(possibleIndexingResult);
                 }
                 catch (NumberFormatException e) {
-                    throw new RuntimeException(String.format("value at \"%s[index]\" is not an integer (numeric context)", ctx.indexedID().ID().getText()));
+                    throw new RuntimeException(String.format("value at \"%s[index]\" is not an integer", ctx.indexedID().ID().getText()));
                 }
             }
             else {
@@ -578,7 +578,7 @@ public class Translator implements DSLVisitor<Integer> {
                     possibleIndexingResult = listIds.get(listId).get(listIndex - 1);
                 }
                 else {
-                    throw new RuntimeException(String.format("index %d is out of bounds (valid range for \"%s\" is 1-%d)", listIndex, listId, listIds.get(listId).size()));
+                    throw new RuntimeException(String.format("index %d is out of bounds (valid range for \"%s\" is 1 to %d)", listIndex, listId, listIds.get(listId).size()));
                 }
             }
             else {
@@ -586,7 +586,7 @@ public class Translator implements DSLVisitor<Integer> {
             }
         }
         else {
-            throw new RuntimeException(String.format("no list named \"%s\" is in scope", listId));
+            throw new RuntimeException(String.format("no list named \"%s\" has been declared", listId));
         }
         return null;
     }
