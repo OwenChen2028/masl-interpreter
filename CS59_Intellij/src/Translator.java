@@ -398,6 +398,9 @@ public class Translator implements DSLVisitor<Integer> {
                     case "Is":
                         value = (value.equals(next)) ? 1 : 0;
                         break;
+                    case "Isn't":
+                        value = (value.equals(next)) ? 0 : 1;
+                        break;
                     case ">=":
                         value = (value >= next) ? 1 : 0;
                         break;
@@ -496,6 +499,15 @@ public class Translator implements DSLVisitor<Integer> {
             else if (numIds.containsKey(id)) {
                 possibleStrResult = String.valueOf(numIds.get(id));
             }
+            else if (templateIds.containsKey(id)) {
+                visitContent(templateIds.get(id));
+                if (contentResult != null) {
+                    possibleStrResult = contentResult;
+                }
+                else {
+                    throw new RuntimeException(String.format("template \"%s\" produced null content (check placeholders)", id));
+                }
+            }
             else {
                 throw new RuntimeException(String.format("identifier \"%s\" is undefined", id));
             }
@@ -534,6 +546,7 @@ public class Translator implements DSLVisitor<Integer> {
 
     @Override
     public Integer visitContentItem(DSLParser.ContentItemContext ctx) {
+        itemResult = null;
         if (ctx.possibleStr() != null) {
             visitPossibleStr(ctx.possibleStr());
             if (possibleStrResult != null) {

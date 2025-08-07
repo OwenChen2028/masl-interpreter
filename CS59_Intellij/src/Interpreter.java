@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 
 public class Interpreter {
     public static void main(String[] args) throws Exception {
-        FileInputStream in = new FileInputStream("tests/valid/otherbehav.dsl");
+        FileInputStream in = new FileInputStream("tests/valid/snakegame.dsl");
         CharStream input = CharStreams.fromStream(in);
         DSLLexer lexer  = new DSLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);

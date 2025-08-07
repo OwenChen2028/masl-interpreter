@@ -1,85 +1,84 @@
-grammar DSL;
+    grammar DSL;
 
-program : statement* EOF;
+    program : statement* EOF;
 
-statement : ( declaration
-            | operation
-            | conditional | loop
-            | genStmt | ioStmt ) '.';
+    statement : ( declaration
+                | operation
+                | conditional | loop
+                | genStmt | ioStmt ) '.';
 
-declaration : numDec | listDec | templateDec;
+    declaration : numDec | listDec | templateDec;
 
-numDec : ID '=' expression;
+    numDec : ID '=' expression;
 
-listDec : ID ':' possibleStr (',' possibleStr)*;
+    listDec : ID ':' possibleStr (',' possibleStr)*;
 
-operation : numOp | listOp;
+    operation : numOp | listOp;
 
-numOp : incOp | decOp;
+    numOp : incOp | decOp;
 
-incOp : 'Increment ' ID;
+    incOp : 'Increment ' ID;
 
-decOp : 'Decrement ' ID;
+    decOp : 'Decrement ' ID;
 
-listOp : setOp | randOp;
+    listOp : setOp | randOp;
 
-setOp : 'Set ' ID ' To ' possibleStr ' At ' expression;
+    setOp : 'Set ' ID ' To ' possibleStr ' At ' expression;
 
-randOp : 'Shuffle ' ID;
+    randOp : 'Shuffle ' ID;
 
-templateDec : 'Begin Template ' ID ':'
-              content
-              'End Template';
+    templateDec : 'Begin Template ' ID ':'
+                  content
+                  'End Template';
 
-conditional : 'Begin Check,'
-              'If ' expression ':'
-              statement*?
-              'End Check';
+    conditional : 'Begin Check,'
+                  'If ' expression ':'
+                  statement*?
+                  'End Check';
 
-loop : repeatLoop | whileLoop;
+    loop : repeatLoop | whileLoop;
 
-repeatLoop : 'Begin Loop,'
-             'Repeat ' expression ' Times:'
-             statement*?
-             'End Loop';
+    repeatLoop : 'Begin Loop,'
+                 'Repeat ' expression ' Times:'
+                 statement*?
+                 'End Loop';
 
-whileLoop : 'Begin Loop,'
-            'While ' expression ':'
-            statement*?
-            'End Loop';
-        
-genStmt : 'Generate ' ID;
+    whileLoop : 'Begin Loop,'
+                'While ' expression ':'
+                statement*?
+                'End Loop';
 
-ioStmt : readStmt | writeStmt;
+    genStmt : 'Generate ' ID;
 
-readStmt : 'Read ' ID;
+    ioStmt : readStmt | writeStmt;
 
-writeStmt : 'Write ' (possibleStr | expression);
+    readStmt : 'Read ' ID;
 
-expression : possibleNum (OP possibleNum)*;
+    writeStmt : 'Write ' (possibleStr | expression);
 
-possibleNum : NUM | ID | indexedID;
+    expression : possibleNum (OP possibleNum)*;
 
-possibleStr : STR | ID | indexedID;
+    possibleNum : NUM | ID | indexedID;
 
-indexedID : ID '(' expression ')';
+    possibleStr : STR | ID | indexedID;
 
-content : contentItem*?;
+    indexedID : ID '(' expression ')';
 
-contentItem : possibleStr | BODY;
+    content : contentItem*?;
 
-BODY : ('`' .*? '{')
-     | ('}' .*? '{')
-     | ('}' .*? '`')
-     | ('`' .*? '`');
+    contentItem : possibleStr | BODY;
 
-ID : [a-zA-Z] [a-zA-Z0-9]*;
-NUM : [0-9]+;
-OP : ('+' | '-' | '*' | '/' | ' Mod '
-    | ' Is ' | '>=' | '<=' | '>' | '<'
-    | ' And ' | ' Or ');
-STR : '"' .*? '"';
+    BODY : ('`' .*? '{')
+         | ('}' .*? '{')
+         | ('}' .*? '`')
+         | ('`' .*? '`');
 
-COMMENT : ( ('//' .*?)
-          | ('/*' .*? '*/') ) -> skip;
-WS : [ \t\r\n] -> skip;
+    ID : [a-zA-Z] [a-zA-Z0-9]*;
+    NUM : '-'? [0-9]+;
+    OP : ('+' | '-' | '*' | '/' | ' Mod '
+        | ' Is ' | ' Isn\'t ' | '>=' | '<=' | '>' | '<'
+        | ' And ' | ' Or ');
+    STR : '"' .*? '"';
+
+    COMMENT : ('/*' .*? '*/') -> skip;
+    WS : [ \t\r\n] -> skip;
