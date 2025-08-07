@@ -111,6 +111,7 @@ Begin Loop, While active:
             shorten = 0.
         End Check.
 
+        /* check for win */
         Begin Check, If length Is 25:
             Set grid To length At gridPos.
             Write output.
