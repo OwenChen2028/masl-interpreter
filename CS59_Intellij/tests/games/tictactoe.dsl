@@ -32,7 +32,7 @@ Begin Loop, While active:
         Begin Check, If input <= 9:
             Begin Check, If grid (input) Is 0:
                 /* place marker */
-                Set grid To player At input.
+                Set grid (input) To player.
 
                 /* check for win */
                 offset = 0.

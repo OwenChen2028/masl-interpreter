@@ -1,7 +1,7 @@
 /* set element in list */
 list: "ab", "cd", "ef".
 Write list (2).
-Set list To "gh" At 2.
+Set list (2) To "gh".
 Write list (2).
 
 Write "".

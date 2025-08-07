@@ -1,2 +1,2 @@
 /* undeclared identifier */
-Set list To "hi" At 1.
+Set list (1) To "hi".

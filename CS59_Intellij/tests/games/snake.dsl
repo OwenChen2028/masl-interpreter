@@ -43,7 +43,7 @@ Begin Loop, While active:
         Begin Loop, While grid (numbers (index)) Isn't 0:
             Increment index.
         End Loop.
-        Set grid To "-1" At numbers (index).
+        Set grid (numbers (index)) To "-1".
         eaten = 0.
     End Check.
 
@@ -113,7 +113,7 @@ Begin Loop, While active:
 
         /* check for win */
         Begin Check, If length Is 25:
-            Set grid To length At gridPos.
+            Set grid (gridPos) To length.
             Write output.
             Write "".
             Write "You win!".
@@ -128,7 +128,7 @@ Begin Loop, While active:
                     value = grid (index).
                     Decrement value.
                     Begin Check, If value >= 0:
-                        Set grid To value At index.
+                        Set grid (index) To value.
                     End Check.
                     Increment index.
                 End Loop.
@@ -141,7 +141,7 @@ Begin Loop, While active:
             End Check.
 
             /* place snake head */
-            Set grid To length At gridPos.
+            Set grid (gridPos) To length.
         End Check.
     End Check.
 End Loop.

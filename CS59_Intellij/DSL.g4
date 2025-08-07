@@ -23,7 +23,7 @@
 
     listOp : setOp | randOp;
 
-    setOp : 'Set ' ID ' To ' possibleStr ' At ' expression;
+    setOp : 'Set ' ID '(' expression ') To ' possibleStr;
 
     randOp : 'Shuffle ' ID;
 
