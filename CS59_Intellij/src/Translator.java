@@ -322,7 +322,7 @@ public class Translator implements DSLVisitor<Integer> {
             throw new RuntimeException(String.format("\"%s\" is already defined with a different type", id));
         }
         else {
-            System.out.print("Enter Input: ");
+            System.out.print("Input: ");
             listIds.put(id, new ArrayList<>(
                     Collections.singletonList(scanner.nextLine())
             ));

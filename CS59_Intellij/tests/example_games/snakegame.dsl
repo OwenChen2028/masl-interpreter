@@ -1,10 +1,10 @@
 /* welcome to snake */
 
-grid: "0","0","0","0","0",
-      "0","0","0","0","0",
-      "0","0","2","0","0",
-      "0","0","1","0","0",
-      "0","0","0","0","0".
+grid: "0", "0", "0", "0", "0",
+      "0", "0", "0", "0", "0",
+      "0", "0", "2", "0", "0",
+      "0", "0", "1", "0", "0",
+      "0", "0", "0", "0", "0".
 
 mapping: "*", ".", "#", "#",
          "#", "#", "#", "#", "#", "#",
@@ -13,16 +13,16 @@ mapping: "*", ".", "#", "#",
          "#", "#", "#", "#", "#", "#".
 
 Begin Template output:
-`{mapping (grid(1) + 2)} {mapping (grid(2) + 2)} {mapping (grid(3) + 2)} {mapping (grid(4) + 2)} {mapping (grid(5) + 2)}
-{mapping (grid(6) + 2)} {mapping (grid(7) + 2)} {mapping (grid(8) + 2)} {mapping (grid(9) + 2)} {mapping (grid(10) + 2)}
-{mapping (grid(11) + 2)} {mapping (grid(12) + 2)} {mapping (grid(13) + 2)} {mapping (grid(14) + 2)} {mapping (grid(15) + 2)}
-{mapping (grid(16) + 2)} {mapping (grid(17) + 2)} {mapping (grid(18) + 2)} {mapping (grid(19) + 2)} {mapping (grid(20) + 2)}
-{mapping (grid(21) + 2)} {mapping (grid(22) + 2)} {mapping (grid(23) + 2)} {mapping (grid(24) + 2)} {mapping (grid(25) + 2)}`
+`{mapping (grid (1) + 2)} {mapping (grid (2) + 2)} {mapping (grid (3) + 2)} {mapping (grid (4) + 2)} {mapping (grid (5) + 2)}
+{mapping (grid (6) + 2)} {mapping (grid (7) + 2)} {mapping (grid (8) + 2)} {mapping (grid (9) + 2)} {mapping (grid (10) + 2)}
+{mapping (grid (11) + 2)} {mapping (grid (12) + 2)} {mapping (grid (13) + 2)} {mapping (grid (14) + 2)} {mapping (grid (15) + 2)}
+{mapping (grid (16) + 2)} {mapping (grid (17) + 2)} {mapping (grid (18) + 2)} {mapping (grid (19) + 2)} {mapping (grid (20) + 2)}
+{mapping (grid (21) + 2)} {mapping (grid (22) + 2)} {mapping (grid (23) + 2)} {mapping (grid (24) + 2)} {mapping (grid (25) + 2)}`
 End Template.
 
-numbers: "1","2","3","4","5","6","7","8","9","10",
-         "11","12","13","14","15","16","17","18","19","20",
-         "21","22","23","24","25".
+numbers: "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+         "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+         "21", "22", "23", "24", "25".
 
 /* snake properties */
 headX = 3.

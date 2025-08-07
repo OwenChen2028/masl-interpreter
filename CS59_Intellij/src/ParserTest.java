@@ -15,7 +15,7 @@ public class ParserTest {
     public static void runAllTests() throws Exception {
         int delay = 50;
 
-        File validDir = new File("tests/valid/");
+        File validDir = new File("tests/working_examples/");
         File[] validFiles = validDir.listFiles();
         if (validFiles != null) {
             for (File file : validFiles) {
@@ -26,7 +26,7 @@ public class ParserTest {
             }
         }
 
-        File invalidDir = new File("tests/invalid/");
+        File invalidDir = new File("tests/invalid_syntax/");
         File[] invalidFiles = invalidDir.listFiles();
         if (invalidFiles != null) {
             for (File file : invalidFiles) {
