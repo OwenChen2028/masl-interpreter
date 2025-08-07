@@ -2,9 +2,9 @@ import org.antlr.v4.runtime.*;
 
 import java.io.FileInputStream;
 
-public class Interpreter {
+public class FullTest {
     public static void main(String[] args) throws Exception {
-        FileInputStream in = new FileInputStream("tests/valid/snakegame.dsl");
+        FileInputStream in = new FileInputStream(args[0]);
         CharStream input = CharStreams.fromStream(in);
         DSLLexer lexer  = new DSLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
