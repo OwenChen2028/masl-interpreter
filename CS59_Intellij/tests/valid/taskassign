@@ -6,7 +6,7 @@ platform: "Mac", "Windows".
 
 Randomize recipient.
 
-Begin Template taskMail:
+Begin Template task_mail:
 `Dear {recipient (c)},
 
 Your task is to create a {project (i)} for {platform (j)}.
@@ -19,7 +19,7 @@ c = 1.
 
 Begin Loop, Incrementing i, Repeat 2 Times:
     Begin Loop, Incrementing j, Repeat 2 Times:
-        Generate taskMail.
+        Generate task_mail.
         Increment c.
     End Loop.
 End Loop.

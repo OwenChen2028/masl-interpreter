@@ -17,9 +17,9 @@
 
     numOp : incOp | decOp;
 
-    incOp : 'Increment ' ID;
+    incOp : 'Increment ' ID (' By ' expression)?;
 
-    decOp : 'Decrement ' ID;
+    decOp : 'Decrement ' ID (' By ' expression)?;
 
     listOp : setOp | randOp;
 
@@ -39,11 +39,13 @@
     loop : repeatLoop | whileLoop;
 
     repeatLoop : 'Begin Loop,'
+                 ('Incrementing ' ID ',')?
                  'Repeat ' expression ' Times:'
                  statement*?
                  'End Loop';
 
     whileLoop : 'Begin Loop,'
+                ('Incrementing ' ID ',')?
                 'While ' expression ':'
                 statement*?
                 'End Loop';
@@ -73,7 +75,7 @@
          | ('}' (~'`')*? '`')
          | ('`' (~'`')*? '`');
 
-    ID : [a-zA-Z] [a-zA-Z0-9]*;
+    ID : [a-zA-Z] [a-zA-Z0-9_]*;
     NUM : '-'? [0-9]+;
     OP : ('+' | '-' | '*' | '/' | ' Mod '
         | ' Is ' | ' Isn\'t ' | '>=' | '<=' | '>' | '<'

@@ -2,7 +2,7 @@
 
 recipient: "John", "Joe", "James", "Jessie".
 
-Begin Template completeMail:
+Begin Template complete_mail:
 `From: Jeffery@example.com
 To: {recipient (i)}@example.com
 Subject: testing
@@ -16,5 +16,5 @@ Jeffery`
 End Template.
 
 Begin Loop, Incrementing i, Repeat 4 Times:
-    Generate completeMail.
+    Generate complete_mail.
 End Loop.

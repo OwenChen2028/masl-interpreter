@@ -3,6 +3,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.FileWriter;
 import java.util.*;
 
 public class Translator implements DSLVisitor<Integer> {
@@ -11,6 +12,7 @@ public class Translator implements DSLVisitor<Integer> {
     HashMap<String, DSLParser.ContentContext> templateIds = new HashMap<>();
 
     Scanner scanner = new Scanner(System.in);
+    HashMap<String, Integer> generated = new HashMap<>();
 
     @Override
     public Integer visitStart(DSLParser.StartContext ctx) {
@@ -61,7 +63,6 @@ public class Translator implements DSLVisitor<Integer> {
     public Integer visitNumDec(DSLParser.NumDecContext ctx) {
         String numId = ctx.ID().getText();
         Integer exprResult = visitExpression(ctx.expression());
-
         if (exprResult != null) {
             if (listIds.containsKey(numId) || templateIds.containsKey(numId)) {
                 throw new RuntimeException(String.format("\"%s\" is already defined with a different type", numId));
@@ -73,7 +74,6 @@ public class Translator implements DSLVisitor<Integer> {
         else {
             throw new RuntimeException(String.format("initializer for \"%s\" evaluated to null (expected an integer)", numId));
         }
-
         return null;
     }
 
@@ -91,7 +91,6 @@ public class Translator implements DSLVisitor<Integer> {
                 throw new RuntimeException(String.format("initializer for an element in \"%s\" evaluated to null (expected a string)", listId));
             }
         }
-
 
         if (numIds.containsKey(listId) || templateIds.containsKey(listId)) {
             throw new RuntimeException(String.format("\"%s\" is already defined with a different type", listId));
@@ -129,7 +128,17 @@ public class Translator implements DSLVisitor<Integer> {
     public Integer visitIncOp(DSLParser.IncOpContext ctx) {
         String numID = ctx.ID().getText();
         if (numIds.containsKey(numID)) {
-            numIds.put(numID, numIds.get(numID) + 1);
+            int incVal = 1;
+            if (ctx.expression() != null) {
+                Integer exprResult = visitExpression(ctx.expression());
+                if (exprResult == null) {
+                    throw new RuntimeException("expression in increment statement evaluated to null");
+                }
+                else {
+                    incVal = exprResult;
+                }
+            }
+            numIds.put(numID, numIds.get(numID) + incVal);
         }
         else {
             throw new RuntimeException(String.format("no numeric variable named \"%s\" has been declared", numID));
@@ -141,7 +150,17 @@ public class Translator implements DSLVisitor<Integer> {
     public Integer visitDecOp(DSLParser.DecOpContext ctx) {
         String numID = ctx.ID().getText();
         if (numIds.containsKey(numID)) {
-            numIds.put(numID, numIds.get(numID) - 1);
+            int decVal = 1;
+            if (ctx.expression() != null) {
+                Integer exprResult = visitExpression(ctx.expression());
+                if (exprResult == null) {
+                    throw new RuntimeException("expression in increment statement evaluated to null");
+                }
+                else {
+                    decVal = exprResult;
+                }
+            }
+            numIds.put(numID, numIds.get(numID) - decVal);
         }
         else {
             throw new RuntimeException(String.format("no numeric variable named \"%s\" has been declared", numID));
@@ -246,9 +265,24 @@ public class Translator implements DSLVisitor<Integer> {
         }
         return null;
     }
+    
+    private void createIncrementor(String incId) {
+        if (listIds.containsKey(incId) || templateIds.containsKey(incId)) {
+            throw new RuntimeException(String.format("incrementor \"%s\" is already defined with a different type", incId));
+        }
+        else {
+            numIds.put(incId, 1);
+        }
+    }
 
     @Override
     public Integer visitRepeatLoop(DSLParser.RepeatLoopContext ctx) {
+        String incId = null;
+        if (ctx.ID() != null) {
+            incId = ctx.ID().getText();
+            createIncrementor(incId);
+        }
+
         Integer exprResult = visitExpression(ctx.expression());
         if (exprResult == null) {
             throw new RuntimeException("repeat loop count evaluated to null (expected >= 0)");
@@ -257,6 +291,10 @@ public class Translator implements DSLVisitor<Integer> {
             for (int i = 0; i < exprResult; i++) {
                 for (DSLParser.StatementContext stmtCtx : ctx.statement()) {
                     visitStatement(stmtCtx);
+                }
+
+                if (incId != null) {
+                    numIds.put(incId, numIds.get(incId) + 1);
                 }
             }
         }
@@ -268,6 +306,12 @@ public class Translator implements DSLVisitor<Integer> {
 
     @Override
     public Integer visitWhileLoop(DSLParser.WhileLoopContext ctx) {
+        String incId = null;
+        if (ctx.ID() != null) {
+            incId = ctx.ID().getText();
+            createIncrementor(incId);
+        }
+
         int iter = 0;
         Integer exprResult;
         while (true) {
@@ -282,15 +326,22 @@ public class Translator implements DSLVisitor<Integer> {
                 if (iter >= 1000) {
                     throw new RuntimeException("while loop exceeded 1000 iterations (possible infinite loop)");
                 }
+
                 for (DSLParser.StatementContext stmtCtx : ctx.statement()) {
                     visitStatement(stmtCtx);
                 }
+
+                if (incId != null) {
+                    numIds.put(incId, numIds.get(incId) + 1);
+                }
+
                 iter++;
             }
             else {
                 throw new RuntimeException(String.format("while condition evaluated to %d (expected 0 or 1)", exprResult));
             }
         }
+
         return null;
     }
 
@@ -300,7 +351,20 @@ public class Translator implements DSLVisitor<Integer> {
         if (templateIds.containsKey(templateId)) {
             visitContent(templateIds.get(templateId));
             if (contentResult != null) {
-                System.out.println(contentResult);
+                if (!generated.containsKey(templateId)) {
+                    generated.put(templateId, 1);
+                }
+                try {
+                    String file = templateId + "_" + generated.get(templateId);
+                    FileWriter fileOutput = new FileWriter("out/" + file);
+                    fileOutput.write(contentResult);
+                    fileOutput.close();
+                    System.out.println("Generated " + file);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                generated.put(templateId, generated.get(templateId) + 1);
             }
             else {
                 throw new RuntimeException(String.format("template \"%s\" produced null content (check placeholders)", templateId));
@@ -309,7 +373,7 @@ public class Translator implements DSLVisitor<Integer> {
         else {
             throw new RuntimeException(String.format("no template named \"%s\" has been declared", templateId));
         }
-        return null; // TODO: generate actual files
+        return null;
     }
 
     @Override
@@ -455,6 +519,7 @@ public class Translator implements DSLVisitor<Integer> {
         if (ctx.NUM() != null) {
             return Integer.parseInt(ctx.NUM().getText());
         }
+
         if (ctx.ID() != null) {
             String numId = ctx.ID().getText();
             if (numIds.containsKey(numId)) {
@@ -488,6 +553,7 @@ public class Translator implements DSLVisitor<Integer> {
                 throw new RuntimeException(String.format("evaluation of \"%s(index)\" returned null", ctx.indexedID().ID().getText()));
             }
         }
+
         return null;
     }
 

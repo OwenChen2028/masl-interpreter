@@ -2,7 +2,7 @@
 
 recipient: "John", "Joe", "James", "Jessie".
 
-Begin Template customMail:
+Begin Template custom_mail:
 `Dear {recipient (i)},
 
 This is an email, personalized to you.
@@ -12,5 +12,5 @@ Jeffery`
 End Template.
 
 Begin Loop, Incrementing i, Repeat 4 Times:
-    Generate customMail.
+    Generate custom_mail.
 End Loop.

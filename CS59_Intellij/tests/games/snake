@@ -38,7 +38,7 @@ active = 1.
 Begin Loop, While active:
     /* find fruit location */
     Begin Check, If eaten:
-        Shuffle numbers.
+        Randomize numbers.
         index = 1.
         Begin Loop, While grid (numbers (index)) Isn't 0:
             Increment index.

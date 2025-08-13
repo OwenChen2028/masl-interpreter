@@ -49,7 +49,7 @@ Begin Loop, While active:
                             End Check.
                         End Check.
                     End Check.
-                    offset = offset + 3.
+                    Increment offset By 3.
                 End Loop.
                 offset = 0.
                 Begin Loop, Repeat 3 Times:

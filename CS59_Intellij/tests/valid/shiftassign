@@ -5,7 +5,7 @@ shift: "day", "night".
 
 Randomize recipient.
 
-Begin Template shiftMail:
+Begin Template shift_mail:
 `Dear {recipient (i)},
 
 Come in for the {shift (i Mod 2 + 1)} shift tomorrow.
@@ -15,5 +15,5 @@ Jeffery`
 End Template.
 
 Begin Loop, Incrementing i, Repeat 4 Times:
-    Generate shiftMail.
+    Generate shift_mail.
 End Loop.
