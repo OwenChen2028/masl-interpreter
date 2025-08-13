@@ -3,6 +3,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.*;
 
@@ -355,11 +356,18 @@ public class Translator implements DSLVisitor<Integer> {
                     generated.put(templateId, 1);
                 }
                 try {
-                    String file = templateId + "_" + generated.get(templateId);
-                    FileWriter fileOutput = new FileWriter("out/" + file);
-                    fileOutput.write(contentResult);
-                    fileOutput.close();
-                    System.out.println("Generated " + file);
+                    File outputDir = new File("out");
+                    if (!outputDir.exists() && !outputDir.mkdirs()) {
+                        throw new RuntimeException("failed to create output directory");
+                    }
+
+                    String fileName = templateId + "_" + generated.get(templateId);
+
+                    FileWriter writer = new FileWriter(new File(outputDir, fileName + ".txt"));
+                    writer.write(contentResult);
+                    writer.close();
+
+                    System.out.println("Generated " + fileName);
                 }
                 catch (Exception e) {
                     throw new RuntimeException(e);
