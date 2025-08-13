@@ -21,7 +21,7 @@ public class DSLParser extends Parser {
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
 		BODY=25, ID=26, NUM=27, OP=28, STR=29, COMMENT=30, WS=31;
 	public static final int
-		RULE_program = 0, RULE_statement = 1, RULE_declaration = 2, RULE_numDec = 3, 
+		RULE_start = 0, RULE_statement = 1, RULE_declaration = 2, RULE_numDec = 3, 
 		RULE_listDec = 4, RULE_operation = 5, RULE_numOp = 6, RULE_incOp = 7, 
 		RULE_decOp = 8, RULE_listOp = 9, RULE_setOp = 10, RULE_randOp = 11, RULE_templateDec = 12, 
 		RULE_conditional = 13, RULE_loop = 14, RULE_repeatLoop = 15, RULE_whileLoop = 16, 
@@ -30,7 +30,7 @@ public class DSLParser extends Parser {
 		RULE_content = 25, RULE_contentItem = 26;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "statement", "declaration", "numDec", "listDec", "operation", 
+			"start", "statement", "declaration", "numDec", "listDec", "operation", 
 			"numOp", "incOp", "decOp", "listOp", "setOp", "randOp", "templateDec", 
 			"conditional", "loop", "repeatLoop", "whileLoop", "genStmt", "ioStmt", 
 			"readStmt", "writeStmt", "expression", "possibleNum", "possibleStr", 
@@ -107,7 +107,7 @@ public class DSLParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class ProgramContext extends ParserRuleContext {
+	public static class StartContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(DSLParser.EOF, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
@@ -115,28 +115,28 @@ public class DSLParser extends Parser {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public ProgramContext(ParserRuleContext parent, int invokingState) {
+		public StartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_program; }
+		@Override public int getRuleIndex() { return RULE_start; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterProgram(this);
+			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterStart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitProgram(this);
+			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitStart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DSLVisitor ) return ((DSLVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof DSLVisitor ) return ((DSLVisitor<? extends T>)visitor).visitStart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ProgramContext program() throws RecognitionException {
-		ProgramContext _localctx = new ProgramContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_program);
+	public final StartContext start() throws RecognitionException {
+		StartContext _localctx = new StartContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_start);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

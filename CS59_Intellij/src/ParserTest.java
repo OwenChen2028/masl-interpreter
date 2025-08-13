@@ -9,7 +9,7 @@ public class ParserTest {
         DSLLexer lexer  = new DSLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         DSLParser parser = new DSLParser(tokens);
-        parser.program();
+        parser.start();
     }
 
     public static void runAllTests() throws Exception {

@@ -10,11 +10,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface DSLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link DSLParser#program}.
+	 * Visit a parse tree produced by {@link DSLParser#start}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProgram(DSLParser.ProgramContext ctx);
+	T visitStart(DSLParser.StartContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DSLParser#statement}.
 	 * @param ctx the parse tree

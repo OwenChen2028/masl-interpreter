@@ -16,13 +16,13 @@ public class DSLBaseListener implements DSLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(DSLParser.ProgramContext ctx) { }
+	@Override public void enterStart(DSLParser.StartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(DSLParser.ProgramContext ctx) { }
+	@Override public void exitStart(DSLParser.StartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

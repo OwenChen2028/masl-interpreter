@@ -13,7 +13,7 @@ public class Translator implements DSLVisitor<Integer> {
     Scanner scanner = new Scanner(System.in);
 
     @Override
-    public Integer visitProgram(DSLParser.ProgramContext ctx) {
+    public Integer visitStart(DSLParser.StartContext ctx) {
         for (DSLParser.StatementContext stmtCtx : ctx.statement()) {
             visitStatement(stmtCtx);
         }
@@ -251,7 +251,7 @@ public class Translator implements DSLVisitor<Integer> {
     public Integer visitRepeatLoop(DSLParser.RepeatLoopContext ctx) {
         Integer exprResult = visitExpression(ctx.expression());
         if (exprResult == null) {
-            throw new RuntimeException("repeat loop count evaluated to null (expected ≥ 0)");
+            throw new RuntimeException("repeat loop count evaluated to null (expected >= 0)");
         }
         else if (exprResult >= 0) {
             for (int i = 0; i < exprResult; i++) {
@@ -261,7 +261,7 @@ public class Translator implements DSLVisitor<Integer> {
             }
         }
         else {
-            throw new RuntimeException(String.format("repeat loop count is %d (expected ≥ 0)", exprResult));
+            throw new RuntimeException(String.format("repeat loop count is %d (expected >= 0)", exprResult));
         }
         return null;
     }
@@ -590,7 +590,7 @@ public class Translator implements DSLVisitor<Integer> {
                 }
             }
             else {
-                throw new RuntimeException(String.format("list index for \"%s\" evaluated to null (expected ≥ 1)", listId));
+                throw new RuntimeException(String.format("list index for \"%s\" evaluated to null (expected >= 1)", listId));
             }
         }
         else {

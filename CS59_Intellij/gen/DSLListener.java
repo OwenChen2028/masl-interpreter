@@ -7,15 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface DSLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link DSLParser#program}.
+	 * Enter a parse tree produced by {@link DSLParser#start}.
 	 * @param ctx the parse tree
 	 */
-	void enterProgram(DSLParser.ProgramContext ctx);
+	void enterStart(DSLParser.StartContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DSLParser#program}.
+	 * Exit a parse tree produced by {@link DSLParser#start}.
 	 * @param ctx the parse tree
 	 */
-	void exitProgram(DSLParser.ProgramContext ctx);
+	void exitStart(DSLParser.StartContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DSLParser#statement}.
 	 * @param ctx the parse tree

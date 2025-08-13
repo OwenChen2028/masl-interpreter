@@ -67,7 +67,7 @@ COMMENT
 WS
 
 rule names:
-program
+start
 statement
 declaration
 numDec

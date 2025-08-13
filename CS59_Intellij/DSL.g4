@@ -1,6 +1,6 @@
     grammar DSL;
 
-    program : statement* EOF;
+    start : statement* EOF;
 
     statement : ( declaration
                 | operation
