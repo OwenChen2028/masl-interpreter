@@ -7,19 +7,15 @@ Write list (2).
 Write "".
 
 /* if statement */
-Begin Check,
-If 1 + 1 Is 2:
+Begin Check, If 1 + 1 Is 2:
     Write "yes!".
 End Check.
 
 Write "".
 
 /* while loop */
-i = 1.
-Begin Loop,
-While i <= 3:
+Begin Loop, Incrementing i, While i <= 3:
     Write list (i).
-    Increment i.
 End Loop.
 
 Write "".
