@@ -25,7 +25,7 @@
 
     setOp : 'Set ' ID ('(' expression ')')? ' To ' possibleStr;
 
-    randOp : 'Shuffle ' ID;
+    randOp : 'Randomize ' ID;
 
     templateDec : 'Begin Template ' ID ':'
                   content

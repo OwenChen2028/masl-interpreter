@@ -3,11 +3,15 @@
 recipient: "John", "Joe", "James", "Jessie".
 shift: "day", "night".
 
-Shuffle recipient.
+Randomize recipient.
 
 Begin Template mail:
 `Dear {recipient (i)},
-Come in for the {shift (i Mod 2 + 1)} shift tomorrow.`
+
+Come in for the {shift (i Mod 2 + 1)} shift tomorrow.
+
+Sincerely,
+Jeffery`
 End Template.
 
 i = 1.

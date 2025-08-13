@@ -42,7 +42,7 @@ public class DSLParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'.'", "'='", "':'", "','", "'Increment '", "'Decrement '", "'Set '", 
-			"'('", "')'", "' To '", "'Shuffle '", "'Begin Template '", "'End Template'", 
+			"'('", "')'", "' To '", "'Randomize '", "'Begin Template '", "'End Template'", 
 			"'Begin Check,'", "'If '", "'End Check'", "'Begin Loop,'", "'Repeat '", 
 			"' Times:'", "'End Loop'", "'While '", "'Generate '", "'Read '", "'Write '"
 		};

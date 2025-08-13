@@ -25,7 +25,7 @@ End Loop.
 Write "".
 
 /* shuffle list randomly */
-Shuffle list.
+Randomize list.
 Write list (1).
 Write list (2).
 Write list (3).
