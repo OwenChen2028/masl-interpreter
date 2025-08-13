@@ -1,6 +1,6 @@
 **CS59 DSL Project**
 
-Author
+Authors
 =============
 <div class="noheader firstcol">
                   |             
@@ -11,9 +11,7 @@ Time to Complete  | ~12.5 (×2) hours so far
 Additional Help   | Consulting w/ Prof. & TAs
 </div>
 
-Disclaimer
-================
-This readme is more of a documentation of the development process rather than the most recent version of the DSL. Many of the grammar rules and examples outlined in the older sections are outdated and should be viewed as such. 
+<br>
 
 Meeting Dates
 ================
@@ -23,6 +21,8 @@ Meeting Dates
 * 7/30/2025, 2:15-4:45pm: meeting to develop ANTLR parser and test it
 * 8/6/2025, 3-7pm: meeting to develop ANTLR translator and test it
 * Future dates TBD...
+
+<br>
 
 P00: Selection
 ================
@@ -125,6 +125,8 @@ Done, see meeting dates section.
 Include meeting dates and approval dates in readme.
 --------------------------------
 Done, see meeting dates section.
+
+<br>
 
 P01: Grammar
 ======================
@@ -306,6 +308,8 @@ Here the changes that we've deemed notable:
 * There is no longer whitespace, as ignoring spaces and new lines would lead to poorly formatted mail bodies. Enforcing whitespace rules also allows for neater code, which is something that we want to “encourage.”
 * ((This is no longer a comment)) /* This is. It looks much better, it's not actually that difficult for non-programmers to learn, and most importantly, people won’t confuse it with mathematical notation and try to use it in expressions. */
 * Pairing strings with emails (and having a special email type) is deprecated. Emails can simply be stored as strings in a separate list, so pairing adds too much translation complexity for no good reason. 
+
+<br>
 
 P02: Parser
 ======================
@@ -573,6 +577,8 @@ End Loop
 Print("Hello").
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+<br>
+
 P03: Prototype
 ======================
 Generate a translator based on the desired functionality and examples.
@@ -675,9 +681,9 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.*;
 
 public class Translator implements DSLVisitor<Integer> {
-    HashMap<String, Integer> numIds = new HashMap<>();
-    HashMap<String, List<String>> listIds = new HashMap<>();
-    HashMap<String, DSLParser.ContentContext> templateIds = new HashMap<>();
+    HashMap< String, Integer > numIds = new HashMap<>();
+    HashMap< String, List< String > > listIds = new HashMap<>();
+    HashMap< String, DSLParser.ContentContext > templateIds = new HashMap<>();
 
     Scanner scanner = new Scanner(System.in);
 
@@ -1850,9 +1856,13 @@ Begin Loop, While active:
 End Loop.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+<br>
+
 P04: Release Candidate
 ======================
 TBD
+
+<br>
 
 P05: Final
 ======================
