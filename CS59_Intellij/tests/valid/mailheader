@@ -1,4 +1,4 @@
-/* mail with RFC22 header */
+/* mail with header */
 
 recipient: "John", "Joe", "James", "Jessie".
 
