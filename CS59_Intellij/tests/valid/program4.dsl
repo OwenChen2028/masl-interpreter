@@ -3,11 +3,11 @@
 recipient: "John", "Joe", "James", "Jessie".
 
 Begin Template completeMail:
-From: Jeffery@example.com
+`From: Jeffery@example.com
 To: {recipient (i)}@example.com
 Subject: testing
 
-`Dear {recipient (i)},
+Dear {recipient (i)},
 
 This mail has a header.
 
