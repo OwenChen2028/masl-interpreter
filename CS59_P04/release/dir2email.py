@@ -2,6 +2,7 @@ import os
 import smtplib
 from email.message import EmailMessage
 
+# CITATION: referenced https://docs.python.org/3/library/email.examples.html
 def send(sender, password, recipient, subject, body):
     msg = EmailMessage()
     msg.set_content(body)
@@ -35,6 +36,6 @@ for file in os.listdir(directory):
     if recipient:
         try:
             send(sender, password, recipient, subject, content)
-            print(f"\nSent '{file}' to {recipient}")
+            print(f"\nSent '{subject}' to {recipient}")
         except Exception as e:
             print(f"\nFailed to send '{subject}' to {recipient}: {e}")
