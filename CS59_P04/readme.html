@@ -1,4 +1,4 @@
-**CS59 DSL Project**
+**DSL Project Readme**
 
 Authors
 =============
@@ -7,10 +7,8 @@ Authors
 ------------------|-------------
 Team Members      | Owen Chen & Cody Zang
 Computer + OS     | Ubuntu, Windows 11 & macOS
-Additional Help   | Consulting w/ Prof. & TAs
+Additional Help   | Professor, TAs & Documentation
 </div>
-
-<br>
 
 Meeting Dates
 ================
@@ -21,8 +19,6 @@ Meeting Dates
 * 8/6/2025, 3-7pm: meeting to develop ANTLR translator and test it
 * 8/13/2025, 4:15-5:45pm: meeting to polish and develop final version
 * Future dates TBD...
-
-<br>
 
 P00: Selection
 ================
@@ -680,7 +676,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.*;
 
-public class Translator implements DSLVisitor<Integer> {
+public class Translator implements DSLVisitor< Integer > {
     HashMap< String, Integer > numIds = new HashMap<>();
     HashMap< String, List< String > > listIds = new HashMap<>();
     HashMap< String, DSLParser.ContentContext > templateIds = new HashMap<>();
@@ -755,7 +751,7 @@ public class Translator implements DSLVisitor<Integer> {
     @Override
     public Integer visitListDec(DSLParser.ListDecContext ctx) {
         String listId = ctx.ID().getText();
-        List<String> strList = new ArrayList<>();
+        List< String > strList = new ArrayList<>();
 
         for (DSLParser.PossibleStrContext strCtx : ctx.possibleStr()) {
             visitPossibleStr(strCtx);
@@ -1030,8 +1026,8 @@ public class Translator implements DSLVisitor<Integer> {
 
     @Override
     public Integer visitExpression(DSLParser.ExpressionContext ctx) {
-        List<DSLParser.PossibleNumContext> nums = ctx.possibleNum();
-        List<TerminalNode> ops  = ctx.OP();
+        List< DSLParser.PossibleNumContext > nums = ctx.possibleNum();
+        List< TerminalNode > ops  = ctx.OP();
 
         Integer value = visitPossibleNum(nums.get(0));
         if (value == null) {
@@ -1962,13 +1958,13 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.io.FileWriter;
 import java.util.*;
 
-public class Translator implements DSLVisitor<Integer> {
-    HashMap<String, Integer> numIds = new HashMap<>();
-    HashMap<String, List<String>> listIds = new HashMap<>();
-    HashMap<String, DSLParser.ContentContext> templateIds = new HashMap<>();
+public class Translator implements DSLVisitor< Integer > {
+    HashMap< String, Integer > numIds = new HashMap<>();
+    HashMap< String, List< String > > listIds = new HashMap<>();
+    HashMap< String, DSLParser.ContentContext > templateIds = new HashMap<>();
 
     Scanner scanner = new Scanner(System.in);
-    HashMap<String, Integer> generated = new HashMap<>();
+    HashMap< String, Integer > generated = new HashMap<>();
 
     @Override
     public Integer visitStart(DSLParser.StartContext ctx) {
@@ -2036,7 +2032,7 @@ public class Translator implements DSLVisitor<Integer> {
     @Override
     public Integer visitListDec(DSLParser.ListDecContext ctx) {
         String listId = ctx.ID().getText();
-        List<String> strList = new ArrayList<>();
+        List< String > strList = new ArrayList<>();
 
         for (DSLParser.PossibleStrContext strCtx : ctx.possibleStr()) {
             visitPossibleStr(strCtx);
@@ -2383,8 +2379,8 @@ public class Translator implements DSLVisitor<Integer> {
 
     @Override
     public Integer visitExpression(DSLParser.ExpressionContext ctx) {
-        List<DSLParser.PossibleNumContext> nums = ctx.possibleNum();
-        List<TerminalNode> ops  = ctx.OP();
+        List< DSLParser.PossibleNumContext > nums = ctx.possibleNum();
+        List< TerminalNode > ops  = ctx.OP();
 
         Integer value = visitPossibleNum(nums.get(0));
         if (value == null) {
@@ -2628,13 +2624,61 @@ public class Translator implements DSLVisitor<Integer> {
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The most significant changes this milestone were: (1) actually creating output files containing generate mails, (2) expanding the syntax of the increment statement to allow for incrementing "by" an expression, and (3) creating a way of specify "incrementers" (similar to the third part of a for loop), which makes writing programs for non-programmers simpler. We also packaged our project into a .jar file which can be run from the command line using: "java -jar Interpreter.jar input_file". This file is included in the package folder. 
+The most significant changes this milestone were: (1) creating output files containing generated mails (instead of just printing them to console), (2) expanding the syntax of the increment statement to allow for incrementing "by" an expression, and (3) creating a way of specify "incrementers" (similar to the third part of a for loop, e.g., i++), which makes writing programs for non-programmers simpler. We also packaged our project into a .jar file which can be run from the command line using: "java -jar Interpreter.jar input_file". This file is included in the release folder. 
+
+Furthermore, we created a Python file to actually send the generated emails. It requires a Gmail address and app password, which should be placed into login.txt (provide this file as an input to the program when it asks, alongside the directory of emails to send). The program is located in the release folder alongside the interpreter, and is copied below:
+
+<b>dir2email.py</b>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Python
+import os
+import smtplib
+from email.message import EmailMessage
+
+def send(sender, password, recipient, subject, body):
+    msg = EmailMessage()
+    msg.set_content(body)
+    msg["Subject"] = subject
+    msg["From"] = sender
+    msg["To"] = recipient
+    
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+        s.login(sender, password)
+        s.send_message(msg)
+
+directory = input("Directory: ").strip()
+login_file = input("Login File: ").strip()
+
+with open(login_file, encoding="utf-8") as f:
+    sender = f.readline().strip()
+    password = f.readline().strip()
+
+for file in os.listdir(directory):
+    path = os.path.join(directory, file)
+    if not (os.path.isfile(path) and file.endswith(".txt")):
+        continue
+
+    with open(path, encoding="utf-8") as fp:
+        content = fp.read()
+    
+    print(f"\n=== {file} ===\n{content}\n")
+    subject = input("Subject: ").strip()
+    recipient = input("Recipient: ").strip()
+    
+    if recipient:
+        try:
+            send(sender, password, recipient, subject, content)
+            print(f"\nSent '{file}' to {recipient}")
+        except Exception as e:
+            print(f"\nFailed to send '{subject}' to {recipient}: {e}")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See the bottom of the next section for screenshots of this program being run. 
 
 Translate all your valid inputs (trivial and non-trivial).
 --------------------------------
 Our input files were modified to use the new "incrementer" construct whenever possible. Here is an example:
 
-<b>taskassign:</b>
+<b>taskassign</b>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
 /* task assignment */
 
@@ -2663,35 +2707,50 @@ Begin Loop, Incrementing i, Repeat 2 Times:
 End Loop.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We tested that our language worked as intended on all of our previously created and modified inputs. We automated testing the parsing step using ParseTest.java (created in a previous milestone), and manually tested the translator using Interpreter.jar. Everywhere that our translator could run into a runtime error, we added a custom exception message. Our language is also now able to perfectly run snake and tictactoe, bar handling of unexpected inputs. 
+We tested that our language worked as intended on all of our previously created and modified inputs. We automated testing the parsing step using ParseTest.java (created in a previous milestone), and manually tested the translator using Interpreter.jar. Everywhere that our translator could run into a runtime error, we added a custom exception message. 
 
-<b>Snake Output:</b><br>
+<br>
+
+Our language is also now able to perfectly run snake and tictactoe:
+
+<b>Snake Program:</b><br>
 ![](images/p04_snake.png)
 
-<b>Tictactoe Output:</b><br>
+<b>Tictactoe Program:</b><br>
 ![](images/p04_tictactoe.png)
 
+<br>
+
+The Python script that we made is able to send actual emails (they sometimes get filtered as junk, though it's understandable why this happens; this sort of filtering also prevents spam from bots). See the screenshots below:
+
+<b>Python Program:</b><br>
+![](images/p04_python.png)
+
+<b>My Inbox:</b><br>
+![](images/p04_inbox.png)
 
 Properly and gracefully handles invalid inputs (trivial and non-trivial).
 --------------------------------
 For syntactically invalid inputs, ANTLR is able to precisely identify where parsing failed (this is fairly trivial as it doesn't require any special effort on our part):
 
-<b>Syntax Error:</b><br>
+<b>Syntax Error</b><br>
 ![](images/p04_syntaxerror.png)
 
 <br>
 
-For all runtime errors we could think of, we wrote an exception message for. We tried to be as specific as possible about the exception (such as including identifiers and expected values wherever relevant). 
+For all runtime errors we could think of, we wrote a corresponding exception message. We tried to be as specific as possible about the exception (such as including identifiers and expected values wherever relevant). 
 
-<b>Out of Bounds Error:</b><br>
+<b>Out of Bounds Error</b><br>
 ![](images/p04_ooberror.png)
 
 <br>
 
 For nontrivial inputs such as our snake program, our programs is still able to reasonably handle failure such as unexpected user inputs.:
 
-<b>Snake Error:</b><br>
-![](images/p04_snake.png)
+<b>Snake Error</b><br>
+![](images/p04_snakeerror.png)
+
+<br>
 
 P05: Final
 ======================

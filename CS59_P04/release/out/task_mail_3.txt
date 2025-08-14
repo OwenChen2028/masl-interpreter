@@ -1,0 +1,6 @@
+Dear Jessie,
+
+Your task is to create a desktop app for Mac.
+
+Sincerely,
+Jeffery

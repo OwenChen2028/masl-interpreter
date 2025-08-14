@@ -1,0 +1,6 @@
+Dear Joe,
+
+Your task is to create a desktop app for Windows.
+
+Sincerely,
+Jeffery
