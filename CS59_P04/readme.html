@@ -2626,7 +2626,7 @@ public class Translator implements DSLVisitor< Integer > {
 
 The most significant changes this milestone were: (1) creating output files containing generated mails (instead of just printing them to console), (2) expanding the syntax of the increment statement to allow for incrementing "by" an expression, and (3) creating a way of specify "incrementers" (similar to the third part of a for loop, e.g., i++), which makes writing programs for non-programmers simpler. We also packaged our project into a .jar file which can be run from the command line using: "java -jar Interpreter.jar input_file". This file is included in the release folder. 
 
-Furthermore, we created a Python file to actually send the generated emails. It requires a Gmail address and app password, which should be placed into login.txt (provide this file as an input to the program when it asks, alongside the directory of emails to send). The program is located in the release folder alongside the interpreter, and is copied below:
+Furthermore, we created a Python file to actually send the generated emails, using the documentation as a reference on how to do this. It requires a Gmail address and app password, which should be placed into login.txt (provide this file as an input to the program when it asks, alongside the directory of emails to send). The program is located in the release folder alongside the interpreter, and is copied below:
 
 <b>dir2email.py</b>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Python
@@ -2738,7 +2738,7 @@ For syntactically invalid inputs, ANTLR is able to precisely identify where pars
 
 <br>
 
-For all runtime errors we could think of, we wrote a corresponding exception message. We tried to be as specific as possible about the exception (such as including identifiers and expected values wherever relevant). 
+For all runtime errors we could think of, we wrote a corresponding exception message. We tried to be as specific as possible about the exception (such as including identifiers and expected values wherever relevant). Many of these errors and examples of invalid inputs are shown in the previous milestone. Here is one example: 
 
 <b>Out of Bounds Error</b><br>
 ![](images/p04_ooberror.png)
