@@ -1,4 +1,4 @@
-**DSL Project Readme**
+**DSL Project History**
 
 Authors
 =============
@@ -191,7 +191,7 @@ Test example inputs against grammar.
 Our grammar changed significantly (see the next subsection), so we designed new inputs and verified that the valid ones work and the invalid ones don't. The three example programs contain various "statements" (which are valid as standalone inputs) to achieve specific functionality, while the examples of syntactically invalid statements fail to conform to the grammar. The semantically invalid statements do pass the grammar, but would lead to runtime errors during our translation step. For example program 1 only (due to how long it takes), I have attached a hand-drawn parse tree showing that it works (the other programs were verified by looking at the grammar).
 
 <b>Hand-Drawn Parse Tree for Example 1:</b><br>
-![](images/p01_parsetree.jpg)
+![](screenshots/p01_parsetree.jpg)
 
 <b>Example Program 1 - Personalized Mails w/ Loop:</b>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DSL
@@ -423,22 +423,22 @@ public class Test {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <b>Screenshot (Test Results pt. 1):</b><br>
-![](images/p02_testresults1.png)
+![](screenshots/p02_testresults1.png)
 
 <b>Screenshot (Test Results pt. 2):</b><br>
-![](images/p02_testresults2.png)
+![](screenshots/p02_testresults2.png)
 
 <b>Screenshot (Test Results pt. 3):</b><br>
-![](images/p02_testresults2.png)
+![](screenshots/p02_testresults2.png)
 
 <b>Screenshot (Parse Tree for Program 1):</b><br>
-![](images/p02_parsetree1.png)
+![](screenshots/p02_parsetree1.png)
 
 <b>Screenshot (Parse Tree for Program 2):</b><br>
-![](images/p02_parsetree2.png)
+![](screenshots/p02_parsetree2.png)
 
 <b>Screenshot (Parse Tree for Program 3):</b><br>
-![](images/p02_parsetree3.png)
+![](screenshots/p02_parsetree3.png)
 
 After some debugging, the parser now accepts and rejects inputs as expected. See below for information on the exact tests.
 
@@ -2717,47 +2717,47 @@ We tested that our language worked as intended on all of our previously created 
 Our language is also now able to perfectly run snake and tictactoe:
 
 <b>Snake Program:</b><br>
-![](images/p04_snake.png)
+![](screenshots/p04_snake.png)
 
 <b>Tictactoe Program:</b><br>
-![](images/p04_tictactoe.png)
+![](screenshots/p04_tictactoe.png)
 
 <br>
 
 The Python script that we made is able to send actual emails (they sometimes get filtered as junk, though it's understandable why this happens; this sort of filtering also prevents spam from bots). See the screenshots below:
 
 <b>Python Program:</b><br>
-![](images/p04_python.png)
+![](screenshots/p04_python.png)
 
 <b>My Inbox:</b><br>
-![](images/p04_inbox.png)
+![](screenshots/p04_inbox.png)
 
 Properly and gracefully handles invalid inputs (trivial and non-trivial).
 --------------------------------
 For syntactically invalid inputs, ANTLR is able to precisely identify where parsing failed (this is fairly trivial as it doesn't require any special effort on our part):
 
 <b>Syntax Error</b><br>
-![](images/p04_syntaxerror.png)
+![](screenshots/p04_syntaxerror.png)
 
 <br>
 
 For all runtime errors we could think of, we wrote a corresponding exception message. We tried to be as specific as possible about the exception (such as including identifiers and expected values wherever relevant). Many of these errors and examples of invalid inputs are shown in the previous milestone. Here is one example: 
 
 <b>Out of Bounds Error</b><br>
-![](images/p04_ooberror.png)
+![](screenshots/p04_ooberror.png)
 
 <br>
 
 For nontrivial inputs such as our snake program, our programs is still able to reasonably handle failure such as unexpected user inputs.:
 
 <b>Snake Error</b><br>
-![](images/p04_snakeerror.png)
+![](screenshots/p04_snakeerror.png)
 
 <br>
 
 P05: Final
-======================
-TBD
+================
+New readme.html contains the language's documentation.
 
 <!--   Feel free to modify the following to fit a theme of your choosing   -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> <!-- a sans-serif font -->

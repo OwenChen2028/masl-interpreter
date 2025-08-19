@@ -1,4 +1,4 @@
-Dear Joe,
+Dear James,
 
 Your task is to create a desktop app for Windows.
 
