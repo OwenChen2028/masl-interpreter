@@ -1,0 +1,16 @@
+/* personalized recipient */
+
+recipient: "John", "Joe", "James", "Jessie".
+
+Begin Template custom_mail:
+`Dear {recipient (i)},
+
+This is an email, personalized to you.
+
+Sincerely,
+Jeffery`
+End Template.
+
+Begin Loop, Incrementing i, Repeat 4 Times:
+    Generate custom_mail.
+End Loop.
